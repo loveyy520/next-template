@@ -54,34 +54,46 @@ const useThemeStore = create<ThemeState>()(
 const themeSub = useThemeStore.subscribe(
 	(state) => state.theme,
 	(theme, prevTheme) => {
-		const root = document.documentElement
-		
+		const root = globalThis.document?.documentElement
+		if (!root) return
 		root.setAttribute('data-theme', theme.toLowerCase())
-		console.log('tt:', theme, prevTheme);
+	},
+	{
+		fireImmediately: true
 	}
 )
 
 const modeSub = useThemeStore.subscribe(
 	(state) => state.mode,
 	(mode) => {
-		const root = document.documentElement
+		const root = globalThis.document?.documentElement
+		if (!root) return
 		const action = mode === 'light' ? 'remove' : 'add'
 		root.classList[action]('dark')
+	},
+	{
+		fireImmediately: true
 	}
 )
 const radiusSub = useThemeStore.subscribe(
 	(state) => state.radius,
 	(radius) => {
-		const root = document.documentElement
+		const root = globalThis.document?.documentElement
+		if (!root) return
 		root.style.setProperty('--radius', `${radius}em`)
+	},
+	{
+		fireImmediately: true
 	}
 )
 
 let isThemeRecovered = false
+// const {setMode, setRadius, setTheme} = useThemeStore()
 const recoverTheme = (theme: ThemeName = initialTheme, mode: ModeName = initialMode, radius: number = initialRadius) => {
 	if (isThemeRecovered) return
 	const root = document.documentElement
 	root.setAttribute('data-theme', theme.toLocaleLowerCase())
+	// setTheme()
 	root.style.setProperty('--radius', `${radius}em`)
 	const action = mode === 'dark' ? 'add' : 'remove'
 	root.classList[action]('dark')

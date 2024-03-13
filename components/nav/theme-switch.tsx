@@ -4,12 +4,13 @@ import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
 import {
 	Popover,
+	PopoverClose,
 	PopoverContent,
 	PopoverTrigger,
 } from '@/components/ui/popover'
 import t from '@/i18n'
 import { radiusPool, themes } from '@/styles/themes/consts'
-import { recoverTheme, useThemeStore } from '@/styles/themes/utils'
+import { useThemeStore } from '@/styles/themes/utils'
 import { CSSProperties, useEffect } from 'react'
 
 const ThemeSwitch = () => {
@@ -28,8 +29,13 @@ const ThemeSwitch = () => {
 	} = useThemeStore()
 
 	useEffect(
-		() => recoverTheme(theme, mode, currentRadius),
-		[theme, mode, currentRadius]
+		// () => recoverTheme(theme, mode, currentRadius),
+		() => {
+			setTheme(theme)
+			setMode(mode)
+			setRadius(currentRadius)
+		},
+		[theme, mode, currentRadius, setMode, setRadius, setTheme]
 	)
 
 	return (
@@ -38,18 +44,19 @@ const ThemeSwitch = () => {
 				<PopoverTrigger asChild>
 					<Button
 						variant='ghost'
-						size='sm'
+						size='icon'
 						className='group'
 					>
-						<i className='i-[ic--outline-color-lens] text-secondary-foreground group-hover:text-primary'></i>
+						<i className='i-[ic--outline-color-lens] group-hover:text-primary dark:text-yellow-200 text-2xl'></i>
 					</Button>
 				</PopoverTrigger>
-				<PopoverContent className='w-[340px]'>
+				<PopoverContent className='w-screen sm:w-[340px]'>
 					<div className='grid gap-8'>
 						<div className='space-y-2'>
 							<div className='flex justify-between items-center font-semibold leading-none tracking-tight'>
 								{t('Customize')}
 								<Button
+									variant={'secondary'}
 									size='sm'
 									onClick={resetTheme}
 								>
@@ -125,6 +132,17 @@ const ThemeSwitch = () => {
 									<i className='i-[tabler--moon-stars] group-hover:text-primary mr-2'></i>
 									{t('Dark')}
 								</Button>
+								<PopoverClose className='lg:hidden'>
+									<div className='flex flex-row justify-end items-center'>
+										<Button
+											variant={'ghost'}
+											size={'sm'}
+										>
+											<i className='i-[iconamoon--close-bold] w-4 h-4'></i>
+											{t('Close')}
+										</Button>
+									</div>
+								</PopoverClose>
 							</div>
 						</div>
 					</div>

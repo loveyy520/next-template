@@ -14,6 +14,12 @@ import {
 	NavigationMenuTrigger,
 	navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
+import { SafeUser } from '@/types'
+import { NextPage } from 'next'
+
+interface MenuProps {
+	currentUser: SafeUser | null
+}
 
 const components: { title: string; href: string; description: string }[] = [
 	{
@@ -53,9 +59,9 @@ const components: { title: string; href: string; description: string }[] = [
 	},
 ]
 
-export default function Menu() {
+const Menu: NextPage<MenuProps> = ({ currentUser }) => {
 	return (
-		<NavigationMenu>
+		<NavigationMenu className='hidden md:flex'>
 			<NavigationMenuList>
 				<NavigationMenuItem>
 					<NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
@@ -131,6 +137,8 @@ export default function Menu() {
 		</NavigationMenu>
 	)
 }
+
+export default Menu
 
 const ListItem = React.forwardRef<
 	React.ElementRef<'a'>,

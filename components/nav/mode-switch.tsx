@@ -13,14 +13,14 @@ const ModeSwitch = () => {
 	return (
 		<Button
 			variant='ghost'
-			size='sm'
+			size='icon'
 			className='group'
 			onClick={toggleMode}
 		>
 			<i
 				className={`${
 					ModeIcon[mode.toUpperCase() as Uppercase<'dark' | 'light'>]
-				} group-hover:text-primary`}
+				} dark:text-yellow-200 group-hover:text-primary text-2xl`}
 			></i>
 		</Button>
 	)
