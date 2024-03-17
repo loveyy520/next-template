@@ -21,29 +21,30 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { type BuiltInProviderType } from 'next-auth/providers/index'
 import { signIn, type LiteralUnion } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 const formSchema = z.object({
 	email: z.string().email({
-		message: 'Email is required.',
+		message: t('Email is required.'),
 	}),
 	name: z
 		.string()
 		.min(8, {
-			message: 'Name needs at least 8 characters.',
+			message: t('At least 8 characters.'),
 		})
 		.max(20, {
-			message: 'Name needs at most 20 characters.',
+			message: t('No more than 20 characters.'),
 		}),
 	password: z
 		.string()
 		.min(8, {
-			message: 'Password needs at least 8 characters.',
+			message: t('At least 8 characters.'),
 		})
 		.max(16, {
-			message: 'Password needs at most 16 characters.',
+			message: t('No more than 16 characters.'),
 		}),
 })
 type RegisterFormSchemaType = z.infer<typeof formSchema>
@@ -61,7 +62,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 	})
 
 	const { toast } = useToast()
-
+	const router = useRouter()
 	async function onSubmit(data: z.infer<typeof formSchema>) {
 		try {
 			setIsLoading(true)
@@ -69,6 +70,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 			toast({
 				description: t('Success'),
 			})
+			router.push('/login')
 		} catch (e: any) {
 			toast({
 				description: e.message || e,
@@ -209,7 +211,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						type='submit'
 					>
 						{isLoading && <Spinner />}
-						{t('Sign In with Email')}
+						{t('Sign Up with Email')}
 					</Button>
 				</form>
 			</Form>
@@ -231,7 +233,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						<Spinner />
 					) : (
 						<i className='i-[logos--google-icon] h-4 w-4 mr-2'></i>
-					)}{' '}
+					)}
 					{t('Google')}
 				</Button>
 				<Button
@@ -244,7 +246,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						<Spinner />
 					) : (
 						<i className='i-[tabler--brand-github-filled] h-4 w-4 mr-2'></i>
-					)}{' '}
+					)}
 					{t('GitHub')}
 				</Button>
 				<Button
@@ -256,7 +258,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						<Spinner />
 					) : (
 						<i className='i-[bi--wechat] text-green-500 h-4 w-4 mr-2'></i>
-					)}{' '}
+					)}
 					{t('WeChat')}
 				</Button>
 				<Button
@@ -269,7 +271,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 					) : (
 						//   <Icons.gitHub className="mr-2 h-4 w-4" />
 						<i className='i-[fa6-brands--qq] text-blue-700 h-4 w-4 mr-2'></i>
-					)}{' '}
+					)}
 					{t('QQ')}
 				</Button>
 			</div>

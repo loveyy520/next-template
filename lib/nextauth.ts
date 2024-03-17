@@ -1,3 +1,4 @@
+import t from '@/i18n'
 import { PrismaAdapter } from '@next-auth/prisma-adapter'
 import bcrypt from 'bcrypt'
 import { AuthOptions } from "next-auth"
@@ -39,15 +40,16 @@ const authOptions: AuthOptions = {
             },
             async authorize(credentials) {
                 if (!credentials?.email || !credentials?.password) {
-                    throw new Error('Invalid credentials.')
+                    throw new Error(t('Invalid credentials.'))
                 }
                 const user = await prisma.user.findUnique({
                     where: {
                         email: credentials.email
                     }
                 })
+                
                 if (!user || !user.hashedPassword) {
-                    throw new Error('Incorrect email or password.')
+                    throw new Error(t('Incorrect email or password.'))
                 }
 
                 const isCorrectPassword = bcrypt.compare(
@@ -56,7 +58,7 @@ const authOptions: AuthOptions = {
                 )
 
                 if (!isCorrectPassword) {
-                    throw new Error('Incorrect email or password.')
+                    throw new Error(t('Incorrect email or password.'))
                 }
                 
                 return user

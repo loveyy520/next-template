@@ -7,7 +7,8 @@ import Nav from '@/components/nav'
 import { defaultRadius, defaultTheme } from '@/styles/themes/consts'
 
 import getCurrentUser from '@/actions/getCurrentUser'
-import { CSSProperties } from 'react'
+import { Toaster } from '@/components/ui/toaster'
+import { CSSProperties, ReactNode } from 'react'
 
 export const metadata: Metadata = {
 	title: 'Next Template',
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
 export default async function RootLayout({
 	children,
 }: Readonly<{
-	children: React.ReactNode
+	children: ReactNode
 }>) {
 	const currentUser = await getCurrentUser()
 	console.log('=====================user:', currentUser)
@@ -30,6 +31,7 @@ export default async function RootLayout({
 		>
 			<body>
 				<Nav currentUser={currentUser} />
+				<Toaster />
 				<div className='px-8 lg:px-16 pt-20 lg:pt-28 pb-12 h-screen overflow-x-hidden'>
 					{children}
 				</div>

@@ -3,7 +3,3 @@
 //     class?: string
 //   }
 // }
-
-interface HTMLAttributes<T> {
-    class?: string
-  }

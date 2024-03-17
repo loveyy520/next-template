@@ -20,6 +20,7 @@ import { SafeUser } from '@/types'
 import { NextPage } from 'next'
 import { signOut } from 'next-auth/react'
 import Link from 'next/link'
+import MenuItemLogin from './menu-item-login'
 
 interface UserProps {
 	currentUser: SafeUser | null
@@ -41,19 +42,25 @@ const User: NextPage<UserProps> = ({ currentUser }) => {
 				{!currentUser ? (
 					<DropdownMenuGroup>
 						<DropdownMenuItem>
-							<Link
+							{/* <Link
 								href='/login'
 								className='flex w-full items-center'
 							>
 								<i className='i-[lets-icons--sign-in-circle-duotone-line] mr-2 h-4 w-4'></i>
 								<span>{t('Login')}</span>
 								<DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-							</Link>
+							</Link> */}
+							<MenuItemLogin />
 						</DropdownMenuItem>
 						<DropdownMenuItem>
-							<i className='i-[ph--trademark-registered] mr-2 h-4 w-4'></i>
-							<span>{t('Sign up for free')}</span>
-							<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+							<Link
+								href='/register'
+								className='flex w-full items-center'
+							>
+								<i className='i-[ph--trademark-registered] mr-2 h-4 w-4'></i>
+								<span>{t('Sign up for free')}</span>
+								<DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+							</Link>
 						</DropdownMenuItem>
 					</DropdownMenuGroup>
 				) : (

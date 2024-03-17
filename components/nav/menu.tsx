@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 // import { Icons } from '@/components/icons'
@@ -14,8 +13,16 @@ import {
 	NavigationMenuTrigger,
 	navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu'
+import t from '@/i18n'
 import { SafeUser } from '@/types'
 import { NextPage } from 'next'
+import { ComponentPropsWithoutRef, ElementRef, forwardRef } from 'react'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '../ui/tooltip'
 
 interface MenuProps {
 	currentUser: SafeUser | null
@@ -64,74 +71,79 @@ const Menu: NextPage<MenuProps> = ({ currentUser }) => {
 		<NavigationMenu className='hidden md:flex'>
 			<NavigationMenuList>
 				<NavigationMenuItem>
-					<NavigationMenuTrigger>Getting started</NavigationMenuTrigger>
+					<NavigationMenuTrigger>{t('Chatbot')}</NavigationMenuTrigger>
 					<NavigationMenuContent>
 						<ul className='grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]'>
 							<li className='row-span-3'>
 								<NavigationMenuLink asChild>
-									<a
-										className='flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md'
-										href='/'
+									<Link
+										className='flex w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md'
+										href='/chatbot'
 									>
 										{/* <Icons.logo className='h-6 w-6' /> */}
-										<div className='mb-2 mt-4 text-lg font-medium'>
-											shadcn/ui
+										<div className='mb-2 text-lg font-medium'>
+											{t('Chriorist')}
 										</div>
 										<p className='text-sm leading-tight text-muted-foreground'>
-											Beautifully designed components that you can copy and
-											paste into your apps. Accessible. Customizable. Open
-											Source.
+											{t(
+												'Chriorist could chat with you as a partner or assistant so as to help you to find inspiration.'
+											)}
 										</p>
-									</a>
+									</Link>
 								</NavigationMenuLink>
 							</li>
 							<ListItem
-								href='/docs'
-								title='Introduction'
+								href='/chatbot/v3'
+								title={t('Chriorist 3.0')}
 							>
-								Re-usable components built using Radix UI and Tailwind CSS.
+								{t('Get started with Chriorist 3.0.')}
 							</ListItem>
 							<ListItem
-								href='/docs/installation'
-								title='Installation'
+								href='/chatbot/v4'
+								title={t('Chriorist 4.0')}
 							>
-								How to install dependencies and structure your app.
-							</ListItem>
-							<ListItem
-								href='/docs/primitives/typography'
-								title='Typography'
-							>
-								Styles for headings, paragraphs, lists...etc
+								{t('This is a new version of Chriorist.')}
 							</ListItem>
 						</ul>
 					</NavigationMenuContent>
 				</NavigationMenuItem>
 				<NavigationMenuItem>
-					<NavigationMenuTrigger>Components</NavigationMenuTrigger>
-					<NavigationMenuContent>
-						<ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] '>
-							{components.map((component) => (
-								<ListItem
-									key={component.title}
-									title={component.title}
-									href={component.href}
+					<TooltipProvider delayDuration={300}>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Link
+									href='/photor'
+									passHref
 								>
-									{component.description}
-								</ListItem>
-							))}
-						</ul>
-					</NavigationMenuContent>
+									<NavigationMenuLink className={navigationMenuTriggerStyle()}>
+										{t('Photor')}
+									</NavigationMenuLink>
+								</Link>
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>{t('Generate photo from text.')}</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				</NavigationMenuItem>
 				<NavigationMenuItem>
-					<Link
-						href='/docs'
-						legacyBehavior
-						passHref
-					>
-						<NavigationMenuLink className={navigationMenuTriggerStyle()}>
-							Documentation
-						</NavigationMenuLink>
-					</Link>
+					<TooltipProvider delayDuration={300}>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<Link
+									href='/video-maker'
+									passHref
+								>
+									<NavigationMenuLink className={navigationMenuTriggerStyle()}>
+										{t('VideoGenerator')}
+									</NavigationMenuLink>
+								</Link>
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>{t('Generate video from photo.')}</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
 				</NavigationMenuItem>
 			</NavigationMenuList>
 		</NavigationMenu>
@@ -140,28 +152,27 @@ const Menu: NextPage<MenuProps> = ({ currentUser }) => {
 
 export default Menu
 
-const ListItem = React.forwardRef<
-	React.ElementRef<'a'>,
-	React.ComponentPropsWithoutRef<'a'>
->(({ className, title, children, ...props }, ref) => {
-	return (
-		<li>
-			<NavigationMenuLink asChild>
-				<a
-					ref={ref}
-					className={cn(
-						'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
-						className
-					)}
-					{...props}
-				>
-					<div className='text-sm font-medium leading-none'>{title}</div>
-					<p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>
-						{children}
-					</p>
-				</a>
-			</NavigationMenuLink>
-		</li>
-	)
-})
+const ListItem = forwardRef<ElementRef<'a'>, ComponentPropsWithoutRef<'a'>>(
+	({ className, title, children, ...props }, ref) => {
+		return (
+			<li>
+				<NavigationMenuLink asChild>
+					<a
+						ref={ref}
+						className={cn(
+							'block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground',
+							className
+						)}
+						{...props}
+					>
+						<div className='text-sm font-medium leading-none'>{title}</div>
+						<p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>
+							{children}
+						</p>
+					</a>
+				</NavigationMenuLink>
+			</li>
+		)
+	}
+)
 ListItem.displayName = 'ListItem'

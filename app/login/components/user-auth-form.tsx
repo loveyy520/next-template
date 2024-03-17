@@ -1,7 +1,5 @@
 'use client'
 
-import * as React from 'react'
-
 import { cn } from '@/lib/utils'
 // import { Icons } from "@/components/icons"
 import { Button } from '@/components/ui/button'
@@ -18,68 +16,71 @@ import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/components/ui/use-toast'
 import t from '@/i18n'
 import { zodResolver } from '@hookform/resolvers/zod'
-import axios from 'axios'
 import { type BuiltInProviderType } from 'next-auth/providers/index'
 import { signIn, type LiteralUnion } from 'next-auth/react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { HTMLAttributes, Suspense, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps extends HTMLAttributes<HTMLDivElement> {}
 const formSchema = z.object({
 	email: z.string().email({
-		message: 'Email is required.',
+		message: t('Invalid email'),
 	}),
-	name: z
-		.string()
-		.min(8, {
-			message: 'Name needs at least 8 characters.',
-		})
-		.max(20, {
-			message: 'Name needs at most 20 characters.',
-		}),
 	password: z
 		.string()
 		.min(8, {
-			message: 'Password needs at least 8 characters.',
+			message: t('At least 8 characters.'),
 		})
 		.max(16, {
-			message: 'Password needs at most 16 characters.',
+			message: t('No more than 16 characters.'),
 		}),
 })
 type RegisterFormSchemaType = z.infer<typeof formSchema>
 
-function UserAuthForm({ className, ...props }: UserAuthFormProps) {
-	const [isLoading, setIsLoading] = React.useState<boolean>(false)
-
-	// async function onSubmit(event: React.SyntheticEvent) {
-	// 	event.preventDefault()
-	// 	setIsLoading(true)
-	// 	setTimeout(() => {
-	// 		setIsLoading(false)
-	// 	}, 3000)
-	// }
+function AuthForm({ className, ...props }: UserAuthFormProps) {
+	const [isLoading, setIsLoading] = useState<boolean>(false)
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
 			email: '',
-			name: '',
 			password: '',
 		},
 	})
 
 	const { toast } = useToast()
-
+	const router = useRouter()
+	const searchParams = useSearchParams()
 	async function onSubmit(data: z.infer<typeof formSchema>) {
 		try {
 			setIsLoading(true)
-			await axios.post('/api/register', data)
-			toast({
-				description: t('Success'),
+			// await axios.post('/api/register', data)
+			const resp = await signIn('credentials', {
+				...data,
+				redirect: false,
 			})
+
+			if (!resp?.ok) {
+				toast({
+					variant: 'destructive',
+					title: 'Uh oh! Something went wrong.',
+					description: resp?.error,
+					duration: 3000,
+				})
+			} else {
+				toast({
+					description: t('Login Success!'),
+				})
+				const redirectUrl = searchParams.get('redirect')
+				router.push(redirectUrl ?? '/')
+			}
 		} catch (e: any) {
 			toast({
+				variant: 'destructive',
 				description: e.message || e,
+				duration: 3000,
 			})
 		} finally {
 			setIsLoading(false)
@@ -143,41 +144,6 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 					/>
 					<FormField
 						control={form.control}
-						name='name'
-						render={({ field }) => (
-							<FormItem className='relative'>
-								<FormControl>
-									<Input
-										className='peer'
-										placeholder=''
-										disabled={isLoading}
-										{...field}
-									/>
-								</FormControl>
-								<FormLabel
-									className='
-										absolute
-										top-0
-										left-3
-										duration-300
-										transform
-										origin-top-left
-										-translate-y-2
-										scale-75
-										peer-placeholder-shown:translate-y-1
-										peer-placeholder-shown:scale-100
-										peer-focus:-translate-y-2
-										peer-focus:scale-75
-									'
-								>
-									{t('Name')}
-								</FormLabel>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
 						name='password'
 						render={({ field }) => (
 							<FormItem className='relative'>
@@ -217,7 +183,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						type='submit'
 					>
 						{isLoading && <Spinner />}
-						{t('Sign In with Email')}
+						{t('Login with Email')}
 					</Button>
 				</form>
 			</Form>
@@ -239,7 +205,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						<Spinner />
 					) : (
 						<i className='i-[logos--google-icon] h-4 w-4 mr-2'></i>
-					)}{' '}
+					)}
 					{t('Google')}
 				</Button>
 				<Button
@@ -252,7 +218,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						<Spinner />
 					) : (
 						<i className='i-[tabler--brand-github-filled] h-4 w-4 mr-2'></i>
-					)}{' '}
+					)}
 					{t('GitHub')}
 				</Button>
 				<Button
@@ -264,7 +230,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						<Spinner />
 					) : (
 						<i className='i-[bi--wechat] text-green-500 h-4 w-4 mr-2'></i>
-					)}{' '}
+					)}
 					{t('WeChat')}
 				</Button>
 				<Button
@@ -275,14 +241,19 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 					{isLoading ? (
 						<Spinner />
 					) : (
-						//   <Icons.gitHub className="mr-2 h-4 w-4" />
 						<i className='i-[fa6-brands--qq] text-blue-700 h-4 w-4 mr-2'></i>
-					)}{' '}
+					)}
 					{t('QQ')}
 				</Button>
 			</div>
 		</div>
 	)
 }
+
+const UserAuthForm = () => (
+	<Suspense>
+		<AuthForm />
+	</Suspense>
+)
 
 export { UserAuthForm as default, type RegisterFormSchemaType }

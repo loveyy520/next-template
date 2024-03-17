@@ -33,13 +33,13 @@ export default function AuthenticationPage() {
 			</div>
 			<div className='sm:container relative h-auto md:h-full flex-col items-center justify-center md:grid lg:max-w-none lg:grid-cols-2 lg:px-0'>
 				<Link
-					href='/login'
+					href='/register'
 					className={cn(
 						buttonVariants({ variant: 'link' }),
 						'absolute -right-2 -top-1 sm:right-8 sm:top-0  md:right-8 md:top-12'
 					)}
 				>
-					{t('Login')}
+					{t('Create an account')}
 				</Link>
 				<div className='relative hidden h-full flex-col bg-muted p-10 lg:flex dark:border-r'>
 					<div className='absolute inset-0' />
@@ -68,10 +68,10 @@ export default function AuthenticationPage() {
 						<div className='flex flex-col space-y-2 text-center'>
 							<h1 className='text-lg sm:text-2xl font-semibold tracking-tight flex flex-row justify-start items-center'>
 								<i className='i-[noto--woman-fairy-light-skin-tone] text-2xl mr-2'></i>
-								<span>{t('Create an account')}</span>
+								<span>{t('Login')}</span>
 							</h1>
 							<p className='hidden sm:block text-sm text-muted-foreground'>
-								{t('Enter your email below to create your account')}
+								{t('Enter your email below to login to your account')}
 							</p>
 						</div>
 						<UserAuthForm />

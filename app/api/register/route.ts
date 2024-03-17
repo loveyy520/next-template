@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 import { NextRequest, NextResponse } from "next/server";
 
 async function POST(req: NextRequest) {
-    const body: RegisterFormSchemaType = await req.json()
+    const body: RegisterFormSchemaType & { name?: string } = await req.json()
 
     const {
         email,
