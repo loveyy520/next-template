@@ -111,14 +111,17 @@ const Menu: NextPage<MenuProps> = ({ currentUser }) => {
 					<TooltipProvider delayDuration={300}>
 						<Tooltip>
 							<TooltipTrigger asChild>
-								<Link
-									href='/photor'
-									passHref
+								<NavigationMenuLink
+									className={navigationMenuTriggerStyle()}
+									asChild
 								>
-									<NavigationMenuLink className={navigationMenuTriggerStyle()}>
+									<Link
+										href='/photor'
+										passHref
+									>
 										{t('Photor')}
-									</NavigationMenuLink>
-								</Link>
+									</Link>
+								</NavigationMenuLink>
 							</TooltipTrigger>
 							<TooltipContent>
 								<p>{t('Generate photo from text.')}</p>
@@ -130,14 +133,17 @@ const Menu: NextPage<MenuProps> = ({ currentUser }) => {
 					<TooltipProvider delayDuration={300}>
 						<Tooltip>
 							<TooltipTrigger asChild>
-								<Link
-									href='/video-maker'
-									passHref
+								<NavigationMenuLink
+									className={navigationMenuTriggerStyle()}
+									asChild
 								>
-									<NavigationMenuLink className={navigationMenuTriggerStyle()}>
+									<Link
+										href='/video-maker'
+										passHref
+									>
 										{t('VideoGenerator')}
-									</NavigationMenuLink>
-								</Link>
+									</Link>
+								</NavigationMenuLink>
 							</TooltipTrigger>
 							<TooltipContent>
 								<p>{t('Generate video from photo.')}</p>

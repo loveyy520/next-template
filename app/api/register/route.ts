@@ -16,7 +16,7 @@ async function POST(req: NextRequest) {
         data: {
             email,
             name,
-            hashedPassword: bcrypt.hashSync(body.password, 16)
+            hashedPassword: bcrypt.hashSync(password, 16)
         }
     })
     

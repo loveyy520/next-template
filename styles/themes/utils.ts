@@ -80,7 +80,7 @@ const radiusSub = useThemeStore.subscribe(
 	(radius) => {
 		const root = globalThis.document?.documentElement
 		if (!root) return
-		root.style.setProperty('--radius', `${radius}em`)
+		root.style.setProperty('--radius', `${radius}em;`)
 	},
 	{
 		fireImmediately: true

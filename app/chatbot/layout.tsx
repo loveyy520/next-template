@@ -1,12 +1,7 @@
 import { ReactNode } from 'react'
 
 const ChatbotLayout = ({ children }: { children: ReactNode }) => {
-	return (
-		<div>
-			Chatbot Layout
-			{children}
-		</div>
-	)
+	return <div className='h-full'>{children}</div>
 }
 
 export default ChatbotLayout

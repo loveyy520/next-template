@@ -26,7 +26,7 @@ export default async function RootLayout({
 	return (
 		<html
 			lang='en'
-			style={{ '--radius': `${defaultRadius}em` } as CSSProperties}
+			style={{ '--radius': `${defaultRadius}em;` } as CSSProperties}
 			data-theme={defaultTheme.toLowerCase()}
 		>
 			<body>
@@ -35,7 +35,8 @@ export default async function RootLayout({
 				<div className='px-8 lg:px-16 pt-20 lg:pt-28 pb-12 h-screen overflow-x-hidden'>
 					{children}
 				</div>
-				<div className='dark:bg-[url(/images/bg-color.png)] bg-[-450px_-300px] md:bg-center lg:bg-left dark:h-screen dark:w-screen opacity-90 fixed top-0 z-[-1]'></div>
+				<div className='texture'></div>
+				<div className='dark:bg-[url(/images/bg-color.png)] bg-[-450px_-300px] md:bg-center lg:bg-left dark:h-screen dark:w-screen opacity-90 fixed top-0 z-[9999] pointer-events-none'></div>
 			</body>
 		</html>
 	)
