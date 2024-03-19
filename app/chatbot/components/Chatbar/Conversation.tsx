@@ -1,6 +1,12 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { Conversation } from '@/types/chat'
 import { KeyValuePair } from '@/types/data'
 import { DragEvent, FC, KeyboardEvent, useEffect, useState } from 'react'
@@ -34,7 +40,7 @@ export const ConversationComponent: FC<Props> = ({
 	}
 
 	const handleDragStart = (
-		e: DragEvent<HTMLDivElement>,
+		e: DragEvent<HTMLButtonElement>,
 		conversation: Conversation
 	) => {
 		if (e.dataTransfer) {
@@ -59,41 +65,50 @@ export const ConversationComponent: FC<Props> = ({
 	}, [isRenaming, isDeleting])
 
 	return (
-		<Button className='gap-4 active:scale-1'>
+		<Button
+			variant='ghost'
+			className={`gap-4 active:scale-1 justify-start ${
+				loading ? 'pointer-events-none' : ''
+			}`}
+			onClick={() => onSelectConversation(conversation)}
+			draggable
+			onDragStart={(e) => handleDragStart(e, conversation)}
+		>
 			{isRenaming && selectedConversation.id === conversation.id ? (
-				<div className='!w-4/5 p-0 flex items-center gap-4'>
+				<>
 					{/* <IconMessage size={18} /> */}
 					<i className='text-lg i-[material-symbols-light--mark-unread-chat-alt-outline-sharp]'></i>
 					<Input
-						className='!h-7'
+						className='!h-7 w-[120px]'
 						value={renameValue}
 						onChange={(e) => setRenameValue(e.target.value)}
 						onKeyDown={handleEnterDown}
 						autoFocus
 					></Input>
-				</div>
+				</>
 			) : (
-				<div
-					className={`!w-4/5 p-0 flex items-center gap-4 ${
-						loading ? 'pointer-events-none' : ''
-					}`}
-					onClick={() => onSelectConversation(conversation)}
-					draggable
-					onDragStart={(e) => handleDragStart(e, conversation)}
-				>
-					{/* <IconMessage size={18} /> */}
+				<>
 					<i className='text-lg i-[material-symbols-light--mark-unread-chat-alt-outline-sharp]'></i>
-					<div
-						className={`relative flex items-center max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all`}
-					>
-						{conversation.name}
-					</div>
-				</div>
+					<TooltipProvider>
+						<Tooltip>
+							<TooltipTrigger asChild>
+								<div
+									className={`relative max-w-[120px] max-h-5 overflow-hidden text-ellipsis whitespace-nowrap break-all`}
+								>
+									{conversation.name}
+								</div>
+							</TooltipTrigger>
+							<TooltipContent>
+								<p>{conversation.name}</p>
+							</TooltipContent>
+						</Tooltip>
+					</TooltipProvider>
+				</>
 			)}
 
 			{(isDeleting || isRenaming) &&
 				selectedConversation.id === conversation.id && (
-					<div className='flex items-center gap-2 p-0 text-foreground'>
+					<div className='flex items-center gap-2 p-0 text-foreground ml-auto'>
 						<Button
 							className='!w-4 !h-4'
 							size='icon'
@@ -129,7 +144,7 @@ export const ConversationComponent: FC<Props> = ({
 			{selectedConversation.id === conversation.id &&
 				!isDeleting &&
 				!isRenaming && (
-					<div className='flex items-center gap-2 text-foreground'>
+					<div className='flex items-center p-0 gap-2 text-foreground ml-auto'>
 						<Button
 							className='!w-4 !h-4'
 							size='icon'
@@ -140,7 +155,7 @@ export const ConversationComponent: FC<Props> = ({
 								setRenameValue(selectedConversation.name)
 							}}
 						>
-							<i className='text-lg i-[jam--pencil-f]'></i>
+							<i className='text-lg i-[jam--pencil-f] text-primary'></i>
 						</Button>
 						<Button
 							className='!w-4 !h-4'
@@ -151,7 +166,7 @@ export const ConversationComponent: FC<Props> = ({
 								setIsDeleting(true)
 							}}
 						>
-							<i className='i-[ion--trash-outline] text-lg'></i>
+							<i className='i-[ion--trash-outline] text-lg text-red-400'></i>
 						</Button>
 					</div>
 				)}

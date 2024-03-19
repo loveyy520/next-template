@@ -111,8 +111,8 @@ const User: NextPage<UserProps> = ({ currentUser }) => {
 						<DropdownMenuSeparator />
 						<DropdownMenuItem onClick={() => signOut()}>
 							{/* <LogOut className='mr-2 h-4 w-4' /> */}
-							<i className='i-[lets-icons--sign-out-circle-duotone-line] mr-2 h-4 w-4 text-red-600'></i>
-							<span className='text-red-600'>{t('Log out')}</span>
+							<i className='i-[lets-icons--sign-out-circle-duotone-line] mr-2 h-4 w-4 text-red-300'></i>
+							<span className='text-red-300'>{t('Log out')}</span>
 							<DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
 						</DropdownMenuItem>
 					</>

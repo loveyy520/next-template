@@ -20,7 +20,7 @@ export const ModelSelect: FC<Props> = ({
 			<label className='mb-2 text-left text-neutral-700 dark:text-neutral-400'>
 				{t('Model')}
 			</label>
-			<div className='w-full rounded-lg border border-border bg-transparent pr-2 text-neutral-900  '>
+			<div className='w-full rounded-lg border border-border bg-transparent pr-2 text-foreground  '>
 				<select
 					className='w-full bg-transparent p-2'
 					placeholder={t('Select a model') || ''}

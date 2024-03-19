@@ -1,5 +1,13 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger,
+} from '@/components/ui/tooltip'
 import { Folder } from '@/types/folder'
 import { Prompt } from '@/types/prompt'
 import { FC, KeyboardEvent, useEffect, useState } from 'react'
@@ -93,7 +101,7 @@ export const PromptFolder: FC<Props> = ({
 		<>
 			<div className='relative flex items-center'>
 				{isRenaming ? (
-					<div className='flex w-full items-center gap-3 bg-[#343541]/90 p-3'>
+					<div className='flex w-full items-center gap-3 bg-background/90 p-3'>
 						{isOpen ? (
 							// <IconCaretDown size={18} />
 							<i className='text-lg i-[ph--caret-down]'></i>
@@ -101,8 +109,7 @@ export const PromptFolder: FC<Props> = ({
 							// <IconCaretRight size={18} />
 							<i className='text-lg i-[ph--caret-right]'></i>
 						)}
-						<input
-							className='mr-12 flex-1 overflow-hidden overflow-ellipsis border-neutral-400 bg-transparent text-left text-[12.5px] leading-3 text-foreground outline-none focus:border-neutral-100'
+						<Input
 							type='text'
 							value={renameValue}
 							onChange={(e) => setRenameValue(e.target.value)}
@@ -111,8 +118,7 @@ export const PromptFolder: FC<Props> = ({
 						/>
 					</div>
 				) : (
-					<button
-						className={`flex w-full cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 hover:bg-[#343541]/90`}
+					<Button
 						onClick={() => setIsOpen(!isOpen)}
 						onDrop={(e) => handleDrop(e, currentFolder)}
 						onDragOver={allowDrop}
@@ -126,17 +132,27 @@ export const PromptFolder: FC<Props> = ({
 							// <IconCaretRight size={18} />
 							<i className='text-lg i-[ph--caret-right]'></i>
 						)}
-
-						<div className='relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all text-left text-[12.5px] leading-3'>
-							{currentFolder.name}
-						</div>
-					</button>
+						<TooltipProvider>
+							<Tooltip>
+								<TooltipTrigger asChild>
+									<div className='relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all text-left text-[12.5px] leading-3'>
+										{currentFolder.name}
+									</div>
+								</TooltipTrigger>
+								<TooltipContent>
+									<p>{currentFolder.name}</p>
+								</TooltipContent>
+							</Tooltip>
+						</TooltipProvider>
+					</Button>
 				)}
 
 				{(isDeleting || isRenaming) && (
 					<div className='absolute right-1 z-10 flex text-gray-300'>
-						<button
-							className='min-w-[20px] p-1 text-neutral-400 hover:text-neutral-100'
+						<Button
+							variant='ghost'
+							size='icon'
+							className='h-4 w-4'
 							onClick={(e) => {
 								e.stopPropagation()
 
@@ -152,9 +168,11 @@ export const PromptFolder: FC<Props> = ({
 						>
 							{/* <IconCheck size={18} /> */}
 							<i className='i-[ic--sharp-check] text-xl text-green-500 dark:text-green-400'></i>
-						</button>
-						<button
-							className='min-w-[20px] p-1 text-neutral-400 hover:text-neutral-100'
+						</Button>
+						<Button
+							variant='ghost'
+							size='icon'
+							className='h-4 w-4'
 							onClick={(e) => {
 								e.stopPropagation()
 								setIsDeleting(false)
@@ -163,33 +181,35 @@ export const PromptFolder: FC<Props> = ({
 						>
 							{/* <IconX size={18} /> */}
 							<i className='text-lg i-[ph--x-bold]'></i>
-						</button>
+						</Button>
 					</div>
 				)}
 
 				{!isDeleting && !isRenaming && (
 					<div className='absolute right-1 z-10 flex text-gray-300'>
-						<button
-							className='min-w-[20px] p-1 text-neutral-400 hover:text-neutral-100'
+						<Button
+							variant='ghost'
+							size='icon'
+							className='h-4 w-4'
 							onClick={(e) => {
 								e.stopPropagation()
 								setIsRenaming(true)
 								setRenameValue(currentFolder.name)
 							}}
 						>
-							{/* <IconPencil size={18} /> */}
-							<i className='text-lg i-[jam--pencil-f]'></i>
-						</button>
-						<button
-							className='min-w-[20px] p-1 text-neutral-400 hover:text-neutral-100'
+							<i className='text-lg i-[jam--pencil-f] text-primary'></i>
+						</Button>
+						<Button
+							variant='ghost'
+							size='icon'
+							className='h-4 w-4'
 							onClick={(e) => {
 								e.stopPropagation()
 								setIsDeleting(true)
 							}}
 						>
-							{/* <IconTrash size={18} /> */}
-							<i className='i-[ion--trash-outline] text-lg'></i>
-						</button>
+							<i className='i-[ion--trash-outline] text-lg text-red-400'></i>
+						</Button>
 					</div>
 				)}
 			</div>

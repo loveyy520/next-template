@@ -99,7 +99,7 @@ export const PromptComponent: FC<Props> = ({
 						}}
 					>
 						{/* <IconTrash size={18} /> */}
-						<i className='i-[ion--trash-outline] text-lg'></i>
+						<i className='i-[ion--trash-outline] text-lg text-red-400'></i>
 					</button>
 				</div>
 			)}

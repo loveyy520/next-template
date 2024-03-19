@@ -165,7 +165,7 @@ export const ChatMessage: FC<Props> = memo(
 													{t('Save & Submit')}
 												</button>
 												<button
-													className='h-[40px] rounded-md border border-neutral-300 px-4 py-1 text-sm font-medium text-neutral-700 hover:bg-background dark:border-neutral-700  dark:hover:bg-neutral-800'
+													className='h-[40px] rounded-md border border-border px-4 py-1 text-sm font-medium text-foreground bg-background dark:hover:bg-neutral-800'
 													onClick={() => {
 														setMessageContent(message.content)
 														setIsEditing(false)
@@ -240,21 +240,21 @@ export const ChatMessage: FC<Props> = memo(
 											},
 											table({ children }) {
 												return (
-													<table className='border-collapse border border-black px-3 py-1 dark:border-white'>
+													<table className='border-collapse border border-border px-3 py-1'>
 														{children}
 													</table>
 												)
 											},
 											th({ children }) {
 												return (
-													<th className='break-words border border-black bg-background0 px-3 py-1 text-foreground dark:border-white'>
+													<th className='break-words border border-border bg-background px-3 py-1 text-foreground'>
 														{children}
 													</th>
 												)
 											},
 											td({ children }) {
 												return (
-													<td className='break-words border border-black px-3 py-1 dark:border-white'>
+													<td className='break-words border border-border px-3 py-1'>
 														{children}
 													</td>
 												)

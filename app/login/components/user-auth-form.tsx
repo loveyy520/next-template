@@ -1,7 +1,6 @@
 'use client'
 
-import { cn } from '@/lib/utils'
-// import { Icons } from "@/components/icons"
+import Spinner from '@/components/icons/spinner'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
@@ -15,6 +14,7 @@ import { Input } from '@/components/ui/input'
 import { Separator } from '@/components/ui/separator'
 import { useToast } from '@/components/ui/use-toast'
 import t from '@/i18n'
+import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { type BuiltInProviderType } from 'next-auth/providers/index'
 import { signIn, type LiteralUnion } from 'next-auth/react'
@@ -87,10 +87,6 @@ function AuthForm({ className, ...props }: UserAuthFormProps) {
 		}
 	}
 
-	const Spinner = () => (
-		<i className='i-[svg-spinners--clock] mr-2 h-4 w-4 text-blue-600'></i>
-	)
-
 	const signInWith = async (provider: LiteralUnion<BuiltInProviderType>) => {
 		setIsLoading(true)
 		await signIn(provider)
@@ -115,7 +111,7 @@ function AuthForm({ className, ...props }: UserAuthFormProps) {
 								<FormControl>
 									<Input
 										className='peer'
-										placeholder=''
+										placeholder=' '
 										disabled={isLoading}
 										{...field}
 									/>
@@ -150,7 +146,7 @@ function AuthForm({ className, ...props }: UserAuthFormProps) {
 								<FormControl>
 									<Input
 										className='peer'
-										placeholder=''
+										placeholder=' '
 										type='password'
 										{...field}
 										disabled={isLoading}
@@ -182,7 +178,7 @@ function AuthForm({ className, ...props }: UserAuthFormProps) {
 						disabled={isLoading}
 						type='submit'
 					>
-						{isLoading && <Spinner />}
+						{isLoading && <Spinner className='mr-2' />}
 						{t('Login with Email')}
 					</Button>
 				</form>
@@ -202,7 +198,7 @@ function AuthForm({ className, ...props }: UserAuthFormProps) {
 					onClick={() => signInWith('google')}
 				>
 					{isLoading ? (
-						<Spinner />
+						<Spinner className='mr-2' />
 					) : (
 						<i className='i-[logos--google-icon] h-4 w-4 mr-2'></i>
 					)}
@@ -215,7 +211,7 @@ function AuthForm({ className, ...props }: UserAuthFormProps) {
 					onClick={() => signInWith('github')}
 				>
 					{isLoading ? (
-						<Spinner />
+						<Spinner className='mr-2' />
 					) : (
 						<i className='i-[tabler--brand-github-filled] h-4 w-4 mr-2'></i>
 					)}
@@ -227,7 +223,7 @@ function AuthForm({ className, ...props }: UserAuthFormProps) {
 					disabled={isLoading}
 				>
 					{isLoading ? (
-						<Spinner />
+						<Spinner className='mr-2' />
 					) : (
 						<i className='i-[bi--wechat] text-green-500 h-4 w-4 mr-2'></i>
 					)}
@@ -239,7 +235,7 @@ function AuthForm({ className, ...props }: UserAuthFormProps) {
 					disabled={isLoading}
 				>
 					{isLoading ? (
-						<Spinner />
+						<Spinner className='mr-2' />
 					) : (
 						<i className='i-[fa6-brands--qq] text-blue-700 h-4 w-4 mr-2'></i>
 					)}

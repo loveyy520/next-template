@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
 import t from '@/i18n'
 import { ChangeEvent, FC } from 'react'
-import { OlInput } from '../Base'
 
 interface Props {
 	placeholder: string
@@ -19,8 +19,8 @@ export const Search: FC<Props> = ({ placeholder, searchTerm, onSearch }) => {
 	}
 
 	return (
-		<div className='relative flex items-center'>
-			<OlInput
+		<div className='relative flex gap-4 items-center'>
+			<Input
 				className='w-full !h-10 !bg-background'
 				placeholder={t(placeholder) || ''}
 				value={searchTerm}
@@ -28,7 +28,10 @@ export const Search: FC<Props> = ({ placeholder, searchTerm, onSearch }) => {
 			/>
 
 			{searchTerm && (
-				<Button size='icon'>
+				<Button
+					className='shrink-0'
+					size='icon'
+				>
 					<i
 						className='i-[material-symbols--add]'
 						onClick={clearSearch}

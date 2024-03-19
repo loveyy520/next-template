@@ -21,7 +21,7 @@ export const PluginSelect: FC<Props> = ({ t, plugin, onPluginChange }) => {
 
 	return (
 		<div className='flex flex-col'>
-			<div className='w-full rounded-lg border border-border bg-transparent pr-2 text-neutral-900  '>
+			<div className='w-full rounded-lg border border-border bg-transparent pr-2 text-foreground  '>
 				<select
 					ref={selectRef}
 					className='w-full cursor-pointer bg-transparent p-2'

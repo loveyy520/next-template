@@ -57,7 +57,7 @@ export const PluginKeys: FC<Props> = ({
 
 			{isChanging && (
 				<div
-					className='z-100 fixed inset-0 flex items-center justify-center bg-black bg-opacity-50'
+					className='z-100 fixed inset-0 flex items-center justify-center bg-background bg-opacity-50'
 					onKeyDown={handleEnter}
 				>
 					<div className='fixed inset-0 z-10 overflow-y-auto'>
@@ -69,7 +69,7 @@ export const PluginKeys: FC<Props> = ({
 
 							<div
 								ref={modalRef}
-								className='dark:border-netural-400 overflow-scroll inline-block max-h-[400px] transform rounded-lg border border-gray-300 bg-background px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle'
+								className='dark:border-netural-400 overflow-scroll inline-block max-h-[400px] transform rounded-lg border border-border bg-background px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle'
 								role='dialog'
 							>
 								<div className='mb-10 text-4xl'>Plugin Keys</div>
@@ -200,7 +200,7 @@ export const PluginKeys: FC<Props> = ({
 									/>
 
 									<button
-										className='mt-6 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow hover:bg-background focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-background dark:text-black dark:hover:bg-neutral-300'
+										className='mt-6 w-full rounded-lg border border-border px-4 py-2 text-foreground shadow hover:bg-background focus:outline-none dark:hover:bg-neutral-300'
 										onClick={() => {
 											const pluginKey = pluginKeys.find(
 												(p) => p.pluginId === PluginID.GOOGLE_SEARCH
@@ -217,7 +217,7 @@ export const PluginKeys: FC<Props> = ({
 
 								<button
 									type='button'
-									className='mt-6 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow hover:bg-background focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-background dark:text-black dark:hover:bg-neutral-300'
+									className='mt-6 w-full rounded-lg border border-border px-4 py-2 text-neutral-900 shadow hover:bg-background focus:outline-none dark:border-opacity-50 dark:hover:bg-neutral-300'
 									onClick={() => setIsChanging(false)}
 								>
 									{t('Save')}

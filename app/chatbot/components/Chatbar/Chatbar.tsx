@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import t from '@/i18n'
 import { Conversation } from '@/types/chat'
 import { KeyValuePair } from '@/types/data'
@@ -137,7 +138,7 @@ export const Chatbar: FC<Props> = ({
 				/>
 			)}
 
-			<div className='flex-grow overflow-auto'>
+			<ScrollArea>
 				{folders.length > 0 && (
 					<div className='flex border-b border-border pb-2'>
 						<ChatFolders
@@ -182,7 +183,7 @@ export const Chatbar: FC<Props> = ({
 						{t('No conversations.')}
 					</div>
 				)}
-			</div>
+			</ScrollArea>
 
 			<ChatbarSettings
 				lang={lang}

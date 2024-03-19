@@ -1,6 +1,8 @@
 'use client'
 
+import Spinner from '@/components/icons/spinner'
 import { Button } from '@/components/ui/button'
+import { Textarea } from '@/components/ui/textarea'
 import t from '@/i18n'
 import { Message } from '@/types/chat'
 import { OpenAIModel } from '@/types/openai'
@@ -247,13 +249,13 @@ export const ChatInput: FC<Props> = ({
 		<div className='absolute bottom-0 left-0 w-full border-transparent from-transparent pt-6 dark:border-border md:pt-2'>
 			<div className='stretch mx-2 mt-4 flex flex-row gap-3 last:mb-2 md:mx-4 md:mt-[52px] md:last:mb-6 lg:mx-auto lg:max-w-3xl'>
 				{messageIsStreaming && (
-					<button
-						className='absolute top-0 left-0 right-0 mx-auto mb-3 flex w-fit items-center gap-3 rounded border border-border bg-background py-2 px-4 text-foreground hover:opacity-50  md:mb-0 md:mt-2'
+					<Button
+						className='absolute top-0 left-0 right-0 mx-auto mb-3 w-fit gap-3'
 						onClick={handleStopConversation}
 					>
 						<i className='text-base i-[tabler--player-stop-filled]'></i>
 						{t('Stop Generating')}
-					</button>
+					</Button>
 				)}
 
 				{!messageIsStreaming && !conversationIsEmpty && (
@@ -267,7 +269,12 @@ export const ChatInput: FC<Props> = ({
 				)}
 
 				<div className='relative mx-2 flex w-full flex-grow flex-col rounded-md border border-border bg-background shadow-[0_0_10px_rgba(0,0,0,0.10)]    dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] sm:mx-4'>
-					<Button onClick={() => setShowPluginSelect(!showPluginSelect)}>
+					<Button
+						variant='ghost'
+						size='icon'
+						className='absolute left-0.5 top-0.5 active:scale-100'
+						onClick={() => setShowPluginSelect(!showPluginSelect)}
+					>
 						{plugin ? (
 							<i className='i-[logos--google-icon] text-xl'></i>
 						) : (
@@ -292,13 +299,11 @@ export const ChatInput: FC<Props> = ({
 						</div>
 					)}
 
-					<textarea
+					<Textarea
 						ref={textareaRef}
-						className='m-0 w-full resize-none border-0 bg-transparent p-0 py-2 pr-8 pl-10 text-black dark:bg-transparent  md:py-3 md:pl-10'
+						className='m-0 w-full min-h-10 max-h-[400px] resize-none text-foreground md:py-3 px-10'
 						style={{
-							resize: 'none',
 							bottom: `${textareaRef?.current?.scrollHeight}px`,
-							maxHeight: '400px',
 							overflow: `${
 								textareaRef.current && textareaRef.current.scrollHeight > 400
 									? 'auto'
@@ -316,16 +321,18 @@ export const ChatInput: FC<Props> = ({
 						onKeyDown={handleKeyDown}
 					/>
 
-					<button
-						className='absolute right-2 top-2 rounded-sm p-1 text-foreground opacity-60 hover:bg-neutral-200 hover:text-neutral-900 dark:bg-opacity-50 dark:text-neutral-100 dark:hover:text-neutral-200'
+					<Button
+						variant='ghost'
+						size='icon'
+						className='absolute right-0.5 top-0.5 active:scale-100'
 						onClick={handleSend}
 					>
 						{messageIsStreaming ? (
-							<div className='h-4 w-4 animate-spin rounded-full border-t-2 border-neutral-800 opacity-60 dark:border-neutral-100'></div>
+							<Spinner />
 						) : (
 							<i className='text-lg i-[cil--send]'></i>
 						)}
-					</button>
+					</Button>
 
 					{showPromptList && filteredPrompts.length > 0 && (
 						<div className='absolute bottom-12 w-full'>

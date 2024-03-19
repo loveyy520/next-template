@@ -4,6 +4,7 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 // import { Icons } from "@/components/icons"
+import Spinner from '@/components/icons/spinner'
 import { Button } from '@/components/ui/button'
 import {
 	Form,
@@ -80,10 +81,6 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 		}
 	}
 
-	const Spinner = () => (
-		<i className='i-[svg-spinners--clock] mr-2 h-4 w-4 text-blue-600'></i>
-	)
-
 	const signInWith = async (provider: LiteralUnion<BuiltInProviderType>) => {
 		setIsLoading(true)
 		await signIn(provider)
@@ -108,7 +105,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 								<FormControl>
 									<Input
 										className='peer'
-										placeholder=''
+										placeholder=' '
 										disabled={isLoading}
 										{...field}
 									/>
@@ -143,7 +140,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 								<FormControl>
 									<Input
 										className='peer'
-										placeholder=''
+										placeholder=' '
 										disabled={isLoading}
 										{...field}
 									/>
@@ -178,7 +175,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 								<FormControl>
 									<Input
 										className='peer'
-										placeholder=''
+										placeholder=' '
 										type='password'
 										{...field}
 										disabled={isLoading}
@@ -210,7 +207,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						disabled={isLoading}
 						type='submit'
 					>
-						{isLoading && <Spinner />}
+						{isLoading && <Spinner className='mr-2' />}
 						{t('Sign Up with Email')}
 					</Button>
 				</form>
@@ -230,7 +227,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 					onClick={() => signInWith('google')}
 				>
 					{isLoading ? (
-						<Spinner />
+						<Spinner className='mr-2' />
 					) : (
 						<i className='i-[logos--google-icon] h-4 w-4 mr-2'></i>
 					)}
@@ -243,7 +240,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 					onClick={() => signInWith('github')}
 				>
 					{isLoading ? (
-						<Spinner />
+						<Spinner className='mr-2' />
 					) : (
 						<i className='i-[tabler--brand-github-filled] h-4 w-4 mr-2'></i>
 					)}
@@ -255,7 +252,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 					disabled={isLoading}
 				>
 					{isLoading ? (
-						<Spinner />
+						<Spinner className='mr-2' />
 					) : (
 						<i className='i-[bi--wechat] text-green-500 h-4 w-4 mr-2'></i>
 					)}
@@ -267,7 +264,7 @@ function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 					disabled={isLoading}
 				>
 					{isLoading ? (
-						<Spinner />
+						<Spinner className='mr-2' />
 					) : (
 						//   <Icons.gitHub className="mr-2 h-4 w-4" />
 						<i className='i-[fa6-brands--qq] text-blue-700 h-4 w-4 mr-2'></i>
