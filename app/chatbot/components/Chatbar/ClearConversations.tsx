@@ -28,7 +28,7 @@ export const ClearConversations: FC<Props> = ({
 		>
 			<i className='i-[ion--trash-outline] text-lg'></i>
 
-			<div className='flex-1 text-left text-base text-foreground'>
+			<div className='flex-1 font-medium text-left text-base text-foreground'>
 				{t(isConfirming ? 'Are you sure?' : 'Clear conversations')}
 			</div>
 
@@ -42,7 +42,7 @@ export const ClearConversations: FC<Props> = ({
 							handleClearConversations()
 						}}
 					>
-						<i className='i-[ic--sharp-check] text-lg text-primary'></i>
+						<i className='i-[ic--sharp-check] text-lg'></i>
 					</Button>
 
 					<Button

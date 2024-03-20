@@ -35,7 +35,7 @@ export const OlButton = forwardRef<Refs, Props>(({ children, label, icon = <>
 
 		</>, align = 'center', theme = 'default', size = 'normal', full = false, isLink = false, className = '', onClick = () => null, ...restProps }, ref) => {
 	// 文字颜色
-	const textColor = theme === 'default' ? 'text-black' : 'text-foreground'
+	const textColor = 'text-foreground'
 	// 黑暗主题文字颜色
 	const darkTextColor = 'text-foreground'
 

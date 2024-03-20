@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import t from '@/i18n'
 import {
 	generateRandomString,
@@ -64,8 +65,8 @@ export const CodeBlock: FC<Props> = memo(({ lang, language, value }) => {
 				<span className='text-xs lowercase text-foreground'>{language}</span>
 
 				<div className='flex items-center'>
-					<button
-						className='flex gap-1.5 items-center rounded bg-none p-1 text-xs text-foreground'
+					<Button
+						className='gap-1.5'
 						onClick={copyToClipboard}
 					>
 						{isCopied ? (
@@ -76,14 +77,15 @@ export const CodeBlock: FC<Props> = memo(({ lang, language, value }) => {
 							<i className='text-lg i-[fluent--clipboard-text-32-regular]'></i>
 						)}
 						{isCopied ? t('Copied!') : t('Copy code')}
-					</button>
-					<button
-						className='flex items-center rounded bg-none p-1 text-xs text-foreground'
+					</Button>
+					<Button
+						size='icon'
+						variant='ghost'
 						onClick={downloadAsFile}
 					>
 						{/* <IconDownload size={18} /> */}
 						<i className='text-lg i-[fluent--arrow-download-24-filled]'></i>
-					</button>
+					</Button>
 				</div>
 			</div>
 

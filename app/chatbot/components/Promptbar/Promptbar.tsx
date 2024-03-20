@@ -1,5 +1,6 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import t from '@/i18n'
 import { Folder } from '@/types/folder'
 import { Prompt } from '@/types/prompt'
@@ -90,11 +91,11 @@ export const Promptbar: FC<Props> = ({
 
 	return (
 		<div
-			className={`fixed top-header-height bottom-0 right-0 z-50 flex h-full w-[260px] flex-none flex-col space-y-2 bg-[#202123] p-2 text-[14px] transition-all sm:relative sm:h-inherit sm:top-0`}
+			className={`fixed top-header-height bottom-0 right-0 z-50 flex h-full w-[270px] flex-none flex-col space-y-2 p-2 text-[14px] transition-all sm:relative sm:h-inherit sm:top-0`}
 		>
-			<div className='flex items-center'>
-				<button
-					className='text-sidebar flex w-[190px] flex-shrink-0 cursor-pointer select-none items-center gap-3 rounded-md border border-border p-3 text-foreground transition-colors duration-200 hover:bg-background0/10'
+			<div className='flex gap-4 items-center'>
+				<Button
+					className='text-primary-foreground w-[190px] flex-shrink-0 select-none items-center gap-3'
 					onClick={() => {
 						onCreatePrompt()
 						setSearchTerm('')
@@ -103,15 +104,15 @@ export const Promptbar: FC<Props> = ({
 					{/* <IconPlus size={16} /> */}
 					<i className='text-base i-[material-symbols--add]'></i>
 					{t('New prompt')}
-				</button>
+				</Button>
 
-				<button
-					className='flex items-center flex-shrink-0 gap-3 p-3 ml-2 text-sm text-foreground transition-colors duration-200 border rounded-md cursor-pointer border-border hover:bg-background0/10'
+				<Button
+					size='icon'
 					onClick={() => onCreateFolder(t('New folder'))}
 				>
 					{/* <IconFolderPlus size={16} /> */}
-					<i className='text-base i-[tabler--folder-plus]'></i>
-				</button>
+					<i className='text-base text-primary-foreground i-[tabler--folder-plus]'></i>
+				</Button>
 			</div>
 
 			{prompts.length > 1 && (

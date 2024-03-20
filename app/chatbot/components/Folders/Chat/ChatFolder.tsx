@@ -218,9 +218,10 @@ export const ChatFolder: FC<Props> = ({
 							return (
 								<div
 									key={index}
-									className='ml-5 gap-2 border-l pl-2'
+									className='ml-5 gap-2 border-l pl-2 w-[224px]'
 								>
 									<ConversationComponent
+										className='w-full'
 										selectedConversation={selectedConversation}
 										conversation={conversation}
 										loading={loading}

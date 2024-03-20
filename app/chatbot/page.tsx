@@ -30,6 +30,7 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { v4 as uuidv4 } from 'uuid'
 
+import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
 import {
 	getStandardBody,
@@ -37,7 +38,6 @@ import {
 	updateCurrentConversation,
 	updateStreamingConversation,
 } from '@/utils/app/chat'
-import { OlArrowRound } from './components/Base'
 import { Chat } from './components/Chat/Chat'
 import { Chatbar } from './components/Chatbar/Chatbar'
 import { Navbar } from './components/Mobile/Navbar'
@@ -560,7 +560,7 @@ const ChatHome = ({ params: { lang } }: Props) => {
 
 	return (
 		<main
-			className={`flex h-full w-screen flex-col text-sm text-foreground bg-background`}
+			className={`flex h-full flex-col text-sm text-foreground bg-background`}
 		>
 			<div className='fixed w-full sm:hidden'>
 				<Navbar
@@ -571,7 +571,7 @@ const ChatHome = ({ params: { lang } }: Props) => {
 			<section className='flex h-full w-full pt-[48px] sm:pt-0'>
 				<div
 					className={`${
-						showSidebar ? '' : 'translate-x-[-270px] w-0'
+						showSidebar ? '' : '-translate-x-[350px] w-0'
 					} relative overflow-hidden transition-transform duration-300`}
 				>
 					<Chatbar
@@ -594,14 +594,26 @@ const ChatHome = ({ params: { lang } }: Props) => {
 						onImportConversations={handleImportConversations}
 					/>
 				</div>
-				<button
+				<Button
+					size='icon'
+					variant='ghost'
 					className={`${
-						showSidebar ? 'translate-x-[260px]' : ''
-					} transition-transform duration-300 fixed left-2 z-50 h-10 w-10 hover:text-gray-400 text-foreground dark:hover:text-gray-300 sm:h-10 sm:w-10`}
+						showSidebar ? 'left-[276px]' : 'left-8'
+					} transition-[left] duration-300 fixed top-20 z-20`}
 					onClick={handleToggleChatbar}
 				>
-					<OlArrowRound direction={showSidebar ? 'left' : 'right'} />
-				</button>
+					<i
+						className={`
+							${
+								showSidebar
+									? 'i-[solar--round-alt-arrow-left-bold]'
+									: 'i-[solar--round-alt-arrow-right-bold]'
+							}
+							text-2xl
+							text-foreground
+						`}
+					/>
+				</Button>
 				<div className='flex flex-1'>
 					<Chat
 						lang={lang}
@@ -620,8 +632,8 @@ const ChatHome = ({ params: { lang } }: Props) => {
 				</div>
 				<div
 					className={`${
-						showPromptbar ? '' : 'translate-x-[270px] w-0'
-					} relative overflow-hidden transition-transform duration-300`}
+						showPromptbar ? 'right-0' : '-right-[270px] w-0'
+					} relative top-0 overflow-hidden transition-[right] duration-300`}
 				>
 					<Promptbar
 						prompts={prompts}
@@ -634,14 +646,26 @@ const ChatHome = ({ params: { lang } }: Props) => {
 						onUpdateFolder={handleUpdateFolder}
 					/>
 				</div>
-				<button
+				<Button
+					size='icon'
+					variant='ghost'
 					className={`${
-						showPromptbar ? 'translate-x-[-260px]' : ''
-					} transition-transform duration-300 fixed right-2 z-50 h-10 w-10 hover:text-gray-400 text-foreground dark:hover:text-gray-300 sm:text-neutral-700`}
+						showPromptbar ? 'right-[288px]' : 'right-8'
+					} transition-[right] duration-300 fixed top-20 z-20`}
 					onClick={handleTogglePromptbar}
 				>
-					<OlArrowRound direction={showPromptbar ? 'right' : 'left'} />
-				</button>
+					<i
+						className={`
+							${
+								showPromptbar
+									? 'i-[solar--round-alt-arrow-right-bold]'
+									: 'i-[solar--round-alt-arrow-left-bold]'
+							}
+							text-2xl
+							text-foreground
+						`}
+					/>
+				</Button>
 			</section>
 		</main>
 	)

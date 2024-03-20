@@ -1,4 +1,5 @@
 'use client'
+import { Button } from '@/components/ui/button'
 import t from '@/i18n'
 import { Conversation, Message } from '@/types/chat'
 import { KeyValuePair } from '@/types/data'
@@ -199,18 +200,22 @@ export const Chat: FC<Props> = memo(
 								<>
 									<div className='flex absolute w-full top-0 z-10 justify-center border border-border bg-background py-2 text-sm text-foreground dark:border-none'>
 										{t('Model')}: {conversation.model.name}
-										<button
-											className='ml-2 cursor-pointer hover:opacity-50'
+										<Button
+											size='icon'
+											variant='ghost'
+											className='ml-2'
 											onClick={handleSettings}
 										>
 											<i className='i-[material-symbols--settings]'></i>
-										</button>
-										<button
-											className='ml-2 cursor-pointer hover:opacity-50'
+										</Button>
+										<Button
+											size='icon'
+											variant='ghost'
+											className='ml-2'
 											onClick={onClearAll}
 										>
 											<i className='i-[codicon--clear-all]'></i>
-										</button>
+										</Button>
 									</div>
 									{showSettings && (
 										<div className='flex flex-col absolute w-full bg-background top-9 z-10 space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl'>
@@ -271,12 +276,14 @@ export const Chat: FC<Props> = memo(
 				)}
 				{showScrollDownButton && (
 					<div className='absolute bottom-52 right-0 mb-4 mr-4 pb-20'>
-						<button
-							className='flex h-7 w-7 items-center justify-center rounded-full bg-neutral-300 text-gray-800 shadow-md hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-neutral-200'
+						<Button
+							size='icon'
+							variant='ghost'
+							className='rounded-full h-7 w-7'
 							onClick={handleScrollDown}
 						>
 							<i className='i-[material-symbols--keyboard-arrow-down-rounded] text-lg'></i>
-						</button>
+						</Button>
 					</div>
 				)}
 			</section>

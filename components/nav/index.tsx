@@ -13,7 +13,7 @@ interface NavProps {
 
 const Nav: NextPage<NavProps> = ({ currentUser }) => {
 	return (
-		<nav className='fixed top-0 z-20 flex flex-row justify-between items-center backdrop-blur-md w-full max-w-screen px-8 lg:px-16 border-b border-border h-navbar-height'>
+		<nav className='fixed top-0 z-30 flex flex-row justify-between items-center backdrop-blur-md w-full max-w-screen px-8 lg:px-16 border-b border-border h-navbar-height'>
 			<div className='flex flex-row items-center gap-16'>
 				<Logo />
 				<Menu currentUser={currentUser} />

@@ -1,4 +1,5 @@
 'use client'
+import { Button } from '@/components/ui/button'
 import { type TFunction } from '@/i18n'
 import { Prompt } from '@/types/prompt'
 import { FC, KeyboardEvent, useEffect, useRef, useState } from 'react'
@@ -55,7 +56,7 @@ export const PromptModal: FC<Props> = ({
 
 	return (
 		<div
-			className='fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-100'
+			className='fixed inset-0 flex items-center justify-center bg-background bg-opacity-50 z-100'
 			onKeyDown={handleEnter}
 		>
 			<div className='fixed inset-0 z-10 overflow-y-auto'>
@@ -67,25 +68,23 @@ export const PromptModal: FC<Props> = ({
 
 					<div
 						ref={modalRef}
-						className='dark:border-netural-400 overflow-scroll inline-block max-h-[400px] transform rounded-lg border border-gray-300 bg-background px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all dark:bg-[#202123] sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle'
+						className='overflow-scroll inline-block max-h-[400px] transform rounded-lg border border-border bg-background px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle'
 						role='dialog'
 					>
-						<div className='text-sm font-bold text-black dark:text-neutral-200'>
-							{t('Name')}
-						</div>
+						<div className='text-sm font-bold text-foreground'>{t('Name')}</div>
 						<input
 							ref={nameInputRef}
-							className='mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50  dark:text-neutral-100'
+							className='mt-2 w-full rounded-lg border border-border px-4 py-2 text-foreground shadow focus:outline-none'
 							placeholder={t('A name for your prompt.') || ''}
 							value={name}
 							onChange={(e) => setName(e.target.value)}
 						/>
 
-						<div className='mt-6 text-sm font-bold text-black dark:text-neutral-200'>
+						<div className='mt-6 text-sm font-bold text-foreground'>
 							{t('Description')}
 						</div>
 						<textarea
-							className='mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50  dark:text-neutral-100'
+							className='mt-2 w-full rounded-lg border border-border px-4 py-2 text-foreground shadow focus:outline-none'
 							style={{ resize: 'none' }}
 							placeholder={t('A description for your prompt.') || ''}
 							value={description}
@@ -93,11 +92,11 @@ export const PromptModal: FC<Props> = ({
 							rows={3}
 						/>
 
-						<div className='mt-6 text-sm font-bold text-black dark:text-neutral-200'>
+						<div className='mt-6 text-sm font-bold text-foreground'>
 							{t('Prompt')}
 						</div>
 						<textarea
-							className='mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50  dark:text-neutral-100'
+							className='mt-2 w-full rounded-lg border border-border px-4 py-2 text-foreground shadow focus:outline-none'
 							style={{ resize: 'none' }}
 							placeholder={
 								t(
@@ -109,9 +108,8 @@ export const PromptModal: FC<Props> = ({
 							rows={10}
 						/>
 
-						<button
-							type='button'
-							className='w-full px-4 py-2 mt-6 border rounded-lg shadow border-neutral-500 text-neutral-900 hover:bg-background focus:outline-none dark:border-neutral-800 dark:border-opacity-50 dark:bg-background dark:text-black dark:hover:bg-neutral-300'
+						<Button
+							className='mt-6'
 							onClick={() => {
 								const updatedPrompt = {
 									...prompt,
@@ -125,7 +123,7 @@ export const PromptModal: FC<Props> = ({
 							}}
 						>
 							{t('Save')}
-						</button>
+						</Button>
 					</div>
 				</div>
 			</div>

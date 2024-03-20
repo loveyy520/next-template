@@ -330,7 +330,7 @@ export const ChatInput: FC<Props> = ({
 						{messageIsStreaming ? (
 							<Spinner />
 						) : (
-							<i className='text-lg i-[cil--send]'></i>
+							<i className='text-lg text-primary i-[cil--send]'></i>
 						)}
 					</Button>
 
@@ -356,7 +356,7 @@ export const ChatInput: FC<Props> = ({
 					)}
 				</div>
 			</div>
-			<div className='px-3 pt-2 pb-3 text-center text-[12px] text-black/50 /50 md:px-4 md:pt-3 md:pb-6'>
+			<div className='px-3 pt-2 pb-3 text-center text-[12px] text-foreground/50 md:px-4 md:pt-3 md:pb-6'>
 				{t('Onlyy Bot keeps everything convinient.')}
 			</div>
 		</div>

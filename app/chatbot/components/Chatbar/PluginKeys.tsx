@@ -81,11 +81,11 @@ export const PluginKeys: FC<Props> = ({
 										the Google Search Plugin.
 									</div>
 
-									<div className='mt-6 text-sm font-bold text-black dark:text-neutral-200'>
+									<div className='mt-6 text-sm font-bold text-foreground'>
 										Google API Key
 									</div>
 									<input
-										className='mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50  dark:text-neutral-100'
+										className='mt-2 w-full rounded-lg border border-border px-4 py-2 text-foreground shadow focus:outline-none dark:border-opacity-50'
 										type='password'
 										value={
 											pluginKeys
@@ -140,11 +140,11 @@ export const PluginKeys: FC<Props> = ({
 										}}
 									/>
 
-									<div className='mt-6 text-sm font-bold text-black dark:text-neutral-200'>
+									<div className='mt-6 text-sm font-bold text-foreground'>
 										Google CSE ID
 									</div>
 									<input
-										className='mt-2 w-full rounded-lg border border-neutral-500 px-4 py-2 text-neutral-900 shadow focus:outline-none dark:border-neutral-800 dark:border-opacity-50  dark:text-neutral-100'
+										className='mt-2 w-full rounded-lg border border-border px-4 py-2 text-foreground shadow focus:outline-nonedark:border-opacity-50'
 										type='password'
 										value={
 											pluginKeys
@@ -199,8 +199,8 @@ export const PluginKeys: FC<Props> = ({
 										}}
 									/>
 
-									<button
-										className='mt-6 w-full rounded-lg border border-border px-4 py-2 text-foreground shadow hover:bg-background focus:outline-none dark:hover:bg-neutral-300'
+									<Button
+										className='mt-6'
 										onClick={() => {
 											const pluginKey = pluginKeys.find(
 												(p) => p.pluginId === PluginID.GOOGLE_SEARCH
@@ -212,16 +212,15 @@ export const PluginKeys: FC<Props> = ({
 										}}
 									>
 										Clear Google Search Plugin Keys
-									</button>
+									</Button>
 								</div>
 
-								<button
-									type='button'
-									className='mt-6 w-full rounded-lg border border-border px-4 py-2 text-neutral-900 shadow hover:bg-background focus:outline-none dark:border-opacity-50 dark:hover:bg-neutral-300'
+								<Button
+									className='mt-6'
 									onClick={() => setIsChanging(false)}
 								>
 									{t('Save')}
-								</button>
+								</Button>
 							</div>
 						</div>
 					</div>

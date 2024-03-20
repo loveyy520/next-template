@@ -113,7 +113,7 @@ export const Chatbar: FC<Props> = ({
 		>
 			<div className='flex items-center justify-between gap-4'>
 				<Button
-					className='justify-start gap-4 flex-1'
+					className='gap-4 flex-1 text-primary-foreground'
 					onClick={() => {
 						onNewConversation()
 						setSearchTerm('')
@@ -126,7 +126,7 @@ export const Chatbar: FC<Props> = ({
 					size='icon'
 					onClick={() => onCreateFolder(t('New folder'))}
 				>
-					<i className='text-lg i-[bi--folder-plus]'></i>
+					<i className='text-lg text-primary-foreground i-[bi--folder-plus]'></i>
 				</Button>
 			</div>
 

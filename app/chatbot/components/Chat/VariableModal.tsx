@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button'
 import { Prompt } from '@/types/prompt'
 import { FC, KeyboardEvent, useEffect, useRef, useState } from 'react'
 
@@ -114,12 +115,12 @@ export const VariableModal: FC<Props> = ({
 					</div>
 				))}
 
-				<button
-					className='mt-6 w-full rounded-lg border border-border px-4 py-2 text-foreground shadow hover:bg-background focus:outline-none dark:border-opacity-50'
+				<Button
+					className='mt-6 w-full'
 					onClick={handleSubmit}
 				>
 					Submit
-				</button>
+				</Button>
 			</div>
 		</div>
 	)

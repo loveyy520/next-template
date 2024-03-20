@@ -9,9 +9,16 @@ import {
 } from '@/components/ui/tooltip'
 import { Conversation } from '@/types/chat'
 import { KeyValuePair } from '@/types/data'
-import { DragEvent, FC, KeyboardEvent, useEffect, useState } from 'react'
+import {
+	DragEvent,
+	FC,
+	HTMLAttributes,
+	KeyboardEvent,
+	useEffect,
+	useState,
+} from 'react'
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLButtonElement> {
 	selectedConversation: Conversation
 	conversation: Conversation
 	loading: boolean
@@ -21,6 +28,7 @@ interface Props {
 }
 
 export const ConversationComponent: FC<Props> = ({
+	className,
 	selectedConversation,
 	conversation,
 	loading,
@@ -69,17 +77,16 @@ export const ConversationComponent: FC<Props> = ({
 			variant='ghost'
 			className={`gap-4 active:scale-1 justify-start ${
 				loading ? 'pointer-events-none' : ''
-			}`}
+			} ${className}`}
 			onClick={() => onSelectConversation(conversation)}
 			draggable
 			onDragStart={(e) => handleDragStart(e, conversation)}
 		>
 			{isRenaming && selectedConversation.id === conversation.id ? (
 				<>
-					{/* <IconMessage size={18} /> */}
-					<i className='text-lg i-[material-symbols-light--mark-unread-chat-alt-outline-sharp]'></i>
+					<i className='text-lg shrink-0 i-[material-symbols-light--mark-unread-chat-alt-outline-sharp]'></i>
 					<Input
-						className='!h-7 w-[120px]'
+						className='!h-7 w-[120px] flex-shrink'
 						value={renameValue}
 						onChange={(e) => setRenameValue(e.target.value)}
 						onKeyDown={handleEnterDown}
@@ -88,7 +95,7 @@ export const ConversationComponent: FC<Props> = ({
 				</>
 			) : (
 				<>
-					<i className='text-lg i-[material-symbols-light--mark-unread-chat-alt-outline-sharp]'></i>
+					<i className='text-lg shrink-0 i-[material-symbols-light--mark-unread-chat-alt-outline-sharp]'></i>
 					<TooltipProvider>
 						<Tooltip>
 							<TooltipTrigger asChild>

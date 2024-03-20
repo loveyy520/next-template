@@ -4,6 +4,7 @@ import { Message } from '@/types/chat'
 import Image from 'next/image'
 import { FC, memo, useEffect, useRef, useState } from 'react'
 // import rehypeMathjax from 'rehype-mathjax';
+import { Button } from '@/components/ui/button'
 import t from '@/i18n'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
@@ -157,22 +158,20 @@ export const ChatMessage: FC<Props> = memo(
 											/>
 
 											<div className='mt-10 flex justify-center space-x-4'>
-												<button
-													className='h-[40px] rounded-md bg-blue-500 px-4 py-1 text-sm font-medium text-foreground enabled:hover:bg-blue-600 disabled:opacity-50'
+												<Button
 													onClick={handleEditMessage}
 													disabled={messageContent.trim().length <= 0}
 												>
 													{t('Save & Submit')}
-												</button>
-												<button
-													className='h-[40px] rounded-md border border-border px-4 py-1 text-sm font-medium text-foreground bg-background dark:hover:bg-neutral-800'
+												</Button>
+												<Button
 													onClick={() => {
 														setMessageContent(message.content)
 														setIsEditing(false)
 													}}
 												>
 													{t('Cancel')}
-												</button>
+												</Button>
 											</div>
 										</div>
 									) : (
@@ -184,12 +183,14 @@ export const ChatMessage: FC<Props> = memo(
 									{((typeof window !== 'undefined' &&
 										window.innerWidth < 640) ||
 										!isEditing) && (
-										<button
-											className={`absolute translate-x-[1000px] text-gray-500 hover:text-gray-700 focus:translate-x-0 group-hover:translate-x-0 dark:text-gray-400 dark:hover:text-gray-300 top-0 right-0`}
+										<Button
+											size='icon'
+											variant='ghost'
+											className={`absolute translate-x-[1000px] focus:translate-x-0 group-hover:translate-x-0 top-0 right-0`}
 											onClick={toggleEditing}
 										>
 											<i className='text-lg i-[material-symbols--contract-edit-rounded]'></i>
-										</button>
+										</Button>
 									)}
 								</div>
 							) : (
@@ -204,12 +205,14 @@ export const ChatMessage: FC<Props> = memo(
 										{messagedCopied ? (
 											<i className='i-[ic--sharp-check] text-xl text-green-500 dark:text-green-400'></i>
 										) : (
-											<button
-												className='translate-x-[1000px] text-gray-500 hover:text-gray-700 focus:translate-x-0 group-hover:translate-x-0 dark:text-gray-400 dark:hover:text-gray-300'
+											<Button
+												size='icon'
+												variant='ghost'
+												className='translate-x-[1000px] focus:translate-x-0 group-hover:translate-x-0'
 												onClick={copyOnClick}
 											>
 												<i className='text-xl i-[ph--copy-simple]'></i>
-											</button>
+											</Button>
 										)}
 									</div>
 

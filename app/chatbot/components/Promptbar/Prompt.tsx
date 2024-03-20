@@ -1,4 +1,5 @@
 'use client'
+import { Button } from '@/components/ui/button'
 import t from '@/i18n'
 import { Prompt } from '@/types/prompt'
 import { DragEvent, FC, useEffect, useState } from 'react'
@@ -36,8 +37,7 @@ export const PromptComponent: FC<Props> = ({
 
 	return (
 		<div className='relative flex items-center'>
-			<button
-				className='flex w-full cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 hover:bg-[#343541]/90'
+			<Button
 				draggable='true'
 				onClick={(e) => {
 					e.stopPropagation()
@@ -56,12 +56,13 @@ export const PromptComponent: FC<Props> = ({
 				<div className='relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all pr-4 text-left text-[12.5px] leading-3'>
 					{prompt.name}
 				</div>
-			</button>
+			</Button>
 
 			{(isDeleting || isRenaming) && (
 				<div className='absolute right-1 z-10 flex text-gray-300'>
-					<button
-						className='min-w-[20px] p-1 text-neutral-400 hover:text-neutral-100'
+					<Button
+						size='icon'
+						variant='ghost'
 						onClick={(e) => {
 							e.stopPropagation()
 
@@ -72,12 +73,12 @@ export const PromptComponent: FC<Props> = ({
 							setIsDeleting(false)
 						}}
 					>
-						{/* <IconCheck size={18} /> */}
 						<i className='i-[ic--sharp-check] text-xl text-green-500 dark:text-green-400'></i>
-					</button>
+					</Button>
 
-					<button
-						className='min-w-[20px] p-1 text-neutral-400 hover:text-neutral-100'
+					<Button
+						size='icon'
+						variant='ghost'
 						onClick={(e) => {
 							e.stopPropagation()
 							setIsDeleting(false)
@@ -85,14 +86,15 @@ export const PromptComponent: FC<Props> = ({
 					>
 						{/* <IconX size={18} /> */}
 						<i className='text-lg i-[ph--x-bold]'></i>
-					</button>
+					</Button>
 				</div>
 			)}
 
 			{!isDeleting && !isRenaming && (
 				<div className='absolute right-1 z-10 flex text-gray-300'>
-					<button
-						className='min-w-[20px] p-1 text-neutral-400 hover:text-neutral-100'
+					<Button
+						size='icon'
+						variant='ghost'
 						onClick={(e) => {
 							e.stopPropagation()
 							setIsDeleting(true)
@@ -100,7 +102,7 @@ export const PromptComponent: FC<Props> = ({
 					>
 						{/* <IconTrash size={18} /> */}
 						<i className='i-[ion--trash-outline] text-lg text-red-400'></i>
-					</button>
+					</Button>
 				</div>
 			)}
 
