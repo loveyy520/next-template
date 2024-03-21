@@ -48,7 +48,7 @@ export const ConversationComponent: FC<Props> = ({
 	}
 
 	const handleDragStart = (
-		e: DragEvent<HTMLButtonElement>,
+		e: DragEvent<HTMLDivElement>,
 		conversation: Conversation
 	) => {
 		if (e.dataTransfer) {
@@ -75,14 +75,16 @@ export const ConversationComponent: FC<Props> = ({
 	return (
 		<Button
 			variant='ghost'
-			className={`gap-4 active:scale-1 justify-start ${
+			className={`gap-4 active:scale-1 justify-start group ${
 				loading ? 'pointer-events-none' : ''
-			} ${className}`}
+			} ${className} ${
+				selectedConversation.id === conversation.id
+					? 'bg-accent text-accent-foreground'
+					: ''
+			}`}
 			onClick={() => onSelectConversation(conversation)}
-			draggable
-			onDragStart={(e) => handleDragStart(e, conversation)}
 		>
-			{isRenaming && selectedConversation.id === conversation.id ? (
+			{isRenaming ? (
 				<>
 					<i className='text-lg shrink-0 i-[material-symbols-light--mark-unread-chat-alt-outline-sharp]'></i>
 					<Input
@@ -100,6 +102,8 @@ export const ConversationComponent: FC<Props> = ({
 						<Tooltip>
 							<TooltipTrigger asChild>
 								<div
+									draggable
+									onDragStart={(e) => handleDragStart(e, conversation)}
 									className={`relative max-w-[120px] max-h-5 overflow-hidden text-ellipsis whitespace-nowrap break-all`}
 								>
 									{conversation.name}
@@ -113,70 +117,67 @@ export const ConversationComponent: FC<Props> = ({
 				</>
 			)}
 
-			{(isDeleting || isRenaming) &&
-				selectedConversation.id === conversation.id && (
-					<div className='flex items-center gap-2 p-0 text-foreground ml-auto'>
-						<Button
-							className='!w-4 !h-4'
-							size='icon'
-							variant='ghost'
-							onClick={(e) => {
-								e.stopPropagation()
-								if (isDeleting) {
-									onDeleteConversation(conversation)
-								} else if (isRenaming) {
-									handleRename(conversation)
-								}
-								setIsDeleting(false)
-								setIsRenaming(false)
-							}}
-						>
-							<i className='i-[ic--sharp-check] text-lg text-green-500 dark:text-green-400'></i>
-						</Button>
-						<Button
-							className='!w-4 !h-4'
-							size='icon'
-							variant='ghost'
-							onClick={(e) => {
-								e.stopPropagation()
-								setIsDeleting(false)
-								setIsRenaming(false)
-							}}
-						>
-							<i className='text-lg i-[ph--x-bold]'></i>
-						</Button>
-					</div>
-				)}
+			{(isDeleting || isRenaming) && (
+				<div className='flex items-center gap-2 p-0 text-foreground ml-auto'>
+					<Button
+						className='!w-4 !h-4'
+						size='icon'
+						variant='ghost'
+						onClick={(e) => {
+							e.stopPropagation()
+							if (isDeleting) {
+								onDeleteConversation(conversation)
+							} else if (isRenaming) {
+								handleRename(conversation)
+							}
+							setIsDeleting(false)
+							setIsRenaming(false)
+						}}
+					>
+						<i className='i-[ic--sharp-check] text-lg text-green-500 dark:text-green-400'></i>
+					</Button>
+					<Button
+						className='!w-4 !h-4'
+						size='icon'
+						variant='ghost'
+						onClick={(e) => {
+							e.stopPropagation()
+							setIsDeleting(false)
+							setIsRenaming(false)
+						}}
+					>
+						<i className='text-lg i-[ph--x-bold]'></i>
+					</Button>
+				</div>
+			)}
 
-			{selectedConversation.id === conversation.id &&
-				!isDeleting &&
-				!isRenaming && (
-					<div className='flex items-center p-0 gap-2 text-foreground ml-auto'>
-						<Button
-							className='!w-4 !h-4'
-							size='icon'
-							variant='ghost'
-							onClick={(e) => {
-								e.stopPropagation()
-								setIsRenaming(true)
-								setRenameValue(selectedConversation.name)
-							}}
-						>
-							<i className='text-lg i-[jam--pencil-f] text-primary'></i>
-						</Button>
-						<Button
-							className='!w-4 !h-4'
-							size='icon'
-							variant='ghost'
-							onClick={(e) => {
-								e.stopPropagation()
-								setIsDeleting(true)
-							}}
-						>
-							<i className='i-[ion--trash-outline] text-lg text-red-400'></i>
-						</Button>
-					</div>
-				)}
+			{!isDeleting && !isRenaming && (
+				<div className='hidden group-hover:flex items-center p-0 gap-2 text-foreground ml-auto'>
+					<Button
+						className='!w-4 !h-4'
+						size='icon'
+						variant='ghost'
+						onClick={(e) => {
+							e.stopPropagation()
+							setIsRenaming(true)
+							setRenameValue(conversation.name)
+						}}
+					>
+						<i className='text-lg i-[jam--pencil-f] text-primary'></i>
+					</Button>
+					<Button
+						className='!w-4 !h-4'
+						size='icon'
+						variant='ghost'
+						onClick={(e) => {
+							e.stopPropagation()
+							setIsDeleting(true)
+						}}
+					>
+						<i className='i-[ion--trash-outline] text-lg text-red-400'></i>
+					</Button>
+				</div>
+			)}
 		</Button>
 	)
 }

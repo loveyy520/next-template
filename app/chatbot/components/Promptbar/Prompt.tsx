@@ -1,9 +1,8 @@
 'use client'
 import { Button } from '@/components/ui/button'
-import t from '@/i18n'
 import { Prompt } from '@/types/prompt'
 import { DragEvent, FC, useEffect, useState } from 'react'
-import { PromptModal } from './PromptModal'
+import PromptModal from './PromptModal'
 
 interface Props {
 	prompt: Prompt
@@ -36,27 +35,30 @@ export const PromptComponent: FC<Props> = ({
 	}, [isRenaming, isDeleting])
 
 	return (
-		<div className='relative flex items-center'>
-			<Button
-				draggable='true'
-				onClick={(e) => {
-					e.stopPropagation()
-					setShowModal(true)
-				}}
-				onDragStart={(e) => handleDragStart(e, prompt)}
-				onMouseLeave={() => {
-					setIsDeleting(false)
-					setIsRenaming(false)
-					setRenameValue('')
-				}}
-			>
-				{/* <IconBulbFilled size={18} /> */}
-				<i className='text-lg i-[tabler--bulb-filled]'></i>
+		<Button
+			variant='ghost'
+			className='w-full group justify-between gap-4 active:scale-100'
+			draggable='true'
+			onDragStart={(e) => handleDragStart(e, prompt)}
+			onMouseLeave={() => {
+				setIsDeleting(false)
+				setIsRenaming(false)
+				setRenameValue('')
+			}}
+		>
+			<div className='flex flex-row w-[150px] items-center gap-4'>
+				<i className='text-lg i-[tabler--bulb-filled] text-primary'></i>
 
-				<div className='relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all pr-4 text-left text-[12.5px] leading-3'>
+				<div
+					onClick={(e) => {
+						e.stopPropagation()
+						setShowModal(true)
+					}}
+					className='relative max-h-5 flex-1 overflow-hidden text-ellipsis whitespace-nowrap break-all pr-4 text-left text-[12.5px] leading-3'
+				>
 					{prompt.name}
 				</div>
-			</Button>
+			</div>
 
 			{(isDeleting || isRenaming) && (
 				<div className='absolute right-1 z-10 flex text-gray-300'>
@@ -91,8 +93,9 @@ export const PromptComponent: FC<Props> = ({
 			)}
 
 			{!isDeleting && !isRenaming && (
-				<div className='absolute right-1 z-10 flex text-gray-300'>
+				<div className='z-10 hidden group-hover:flex text-gray-300'>
 					<Button
+						className='w-5 h-5'
 						size='icon'
 						variant='ghost'
 						onClick={(e) => {
@@ -101,19 +104,19 @@ export const PromptComponent: FC<Props> = ({
 						}}
 					>
 						{/* <IconTrash size={18} /> */}
-						<i className='i-[ion--trash-outline] text-lg text-red-400'></i>
+						<i className='i-[ion--trash-outline] text-lg text-red-500'></i>
 					</Button>
 				</div>
 			)}
 
 			{showModal && (
 				<PromptModal
-					t={t}
+					open={showModal}
 					prompt={prompt}
 					onClose={() => setShowModal(false)}
 					onUpdatePrompt={onUpdatePrompt}
 				/>
 			)}
-		</div>
+		</Button>
 	)
 }

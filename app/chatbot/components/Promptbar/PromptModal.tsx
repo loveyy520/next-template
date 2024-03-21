@@ -1,132 +1,163 @@
-'use client'
 import { Button } from '@/components/ui/button'
-import { type TFunction } from '@/i18n'
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import t from '@/i18n'
 import { Prompt } from '@/types/prompt'
-import { FC, KeyboardEvent, useEffect, useRef, useState } from 'react'
+import { FC, KeyboardEvent, useCallback, useState } from 'react'
 
-interface Props {
-	t: TFunction
+interface PromptModalProps {
+	open: boolean
 	prompt: Prompt
 	onClose: () => void
 	onUpdatePrompt: (prompt: Prompt) => void
 }
 
-export const PromptModal: FC<Props> = ({
-	t,
+const PromptModal: FC<PromptModalProps> = ({
+	open,
 	prompt,
 	onClose,
 	onUpdatePrompt,
 }) => {
-	const [name, setName] = useState(prompt.name)
+	const [name, setName] = useState(prompt?.name ?? '')
 	const [description, setDescription] = useState(prompt.description)
 	const [content, setContent] = useState(prompt.content)
 
-	const modalRef = useRef<HTMLDivElement>(null)
-	const nameInputRef = useRef<HTMLInputElement>(null)
-
-	const handleEnter = (e: KeyboardEvent<HTMLDivElement>) => {
-		if (e.key === 'Enter' && !e.shiftKey) {
-			onUpdatePrompt({ ...prompt, name, description, content: content.trim() })
-			onClose()
-		}
-	}
-
-	useEffect(() => {
-		const handleMouseDown = (e: MouseEvent) => {
-			if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-				window.addEventListener('mouseup', handleMouseUp)
+	const handleEnter = useCallback(
+		(e: KeyboardEvent<HTMLDivElement>) => {
+			if (e.key === 'Enter' && !e.shiftKey) {
+				onUpdatePrompt({
+					...prompt,
+					name,
+					description,
+					content: content.trim(),
+				})
+				onClose()
 			}
-		}
+		},
+		[prompt, name, description, content, onClose, onUpdatePrompt]
+	)
 
-		const handleMouseUp = (e: MouseEvent) => {
-			window.removeEventListener('mouseup', handleMouseUp)
-			onClose()
-		}
-
-		window.addEventListener('mousedown', handleMouseDown)
-
-		return () => {
-			window.removeEventListener('mousedown', handleMouseDown)
-		}
-	}, [onClose])
-
-	useEffect(() => {
-		nameInputRef.current?.focus()
-	}, [])
-
+	const handleOpenChange = useCallback(
+		(value: boolean) => {
+			!value && onClose()
+		},
+		[onClose]
+	)
 	return (
-		<div
-			className='fixed inset-0 flex items-center justify-center bg-background bg-opacity-50 z-100'
-			onKeyDown={handleEnter}
+		<Dialog
+			open={open}
+			onOpenChange={handleOpenChange}
 		>
-			<div className='fixed inset-0 z-10 overflow-y-auto'>
-				<div className='flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0'>
-					<div
-						className='hidden sm:inline-block sm:h-screen sm:align-middle'
-						aria-hidden='true'
-					/>
-
-					<div
-						ref={modalRef}
-						className='overflow-scroll inline-block max-h-[400px] transform rounded-lg border border-border bg-background px-4 pt-5 pb-4 text-left align-bottom shadow-xl transition-all sm:my-8 sm:max-h-[600px] sm:w-full sm:max-w-lg sm:p-6 sm:align-middle'
-						role='dialog'
-					>
-						<div className='text-sm font-bold text-foreground'>{t('Name')}</div>
-						<input
-							ref={nameInputRef}
-							className='mt-2 w-full rounded-lg border border-border px-4 py-2 text-foreground shadow focus:outline-none'
-							placeholder={t('A name for your prompt.') || ''}
+			<DialogTrigger />
+			<DialogContent
+				className='max-w-screen sm:max-w-[425px] md:max-w-[600px]'
+				onKeyDown={handleEnter}
+			>
+				<DialogHeader>
+					<DialogTitle>{t('Edit Prompt')!}</DialogTitle>
+					<DialogDescription>
+						{
+							t(
+								'Make changes to your prompt here. Click save when you finish it.'
+							)!
+						}
+					</DialogDescription>
+				</DialogHeader>
+				<div className='grid gap-5 py-4'>
+					<div className='grid grid-cols-1 items-center gap-2'>
+						<Label
+							htmlFor='name'
+							className='text-left'
+						>
+							{t('Name')!}
+						</Label>
+						<Input
+							id='name'
+							autoFocus
+							defaultValue='Pedro Duarte'
+							className='col-span-3'
 							value={name}
 							onChange={(e) => setName(e.target.value)}
 						/>
-
-						<div className='mt-6 text-sm font-bold text-foreground'>
-							{t('Description')}
-						</div>
-						<textarea
-							className='mt-2 w-full rounded-lg border border-border px-4 py-2 text-foreground shadow focus:outline-none'
-							style={{ resize: 'none' }}
-							placeholder={t('A description for your prompt.') || ''}
+					</div>
+					<div className='grid grid-cols-1 items-center gap-2'>
+						<Label
+							htmlFor='description'
+							className='text-left'
+						>
+							{t('Description')!}
+						</Label>
+						<Textarea
+							id='description'
+							defaultValue='@peduarte'
+							placeholder={t('A description for your prompt.')!}
+							className='col-span-3 resize-none'
 							value={description}
 							onChange={(e) => setDescription(e.target.value)}
 							rows={3}
 						/>
-
-						<div className='mt-6 text-sm font-bold text-foreground'>
-							{t('Prompt')}
-						</div>
-						<textarea
-							className='mt-2 w-full rounded-lg border border-border px-4 py-2 text-foreground shadow focus:outline-none'
-							style={{ resize: 'none' }}
+					</div>
+					<div className='grid grid-cols-1 items-center gap-2'>
+						<Label
+							htmlFor='content'
+							className='text-left'
+						>
+							{t('Content')!}
+						</Label>
+						<Textarea
+							id='content'
+							defaultValue='@peduarte'
 							placeholder={
 								t(
-									'Prompt content. Use {{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}'
-								) || ''
+									'Prompt content. Use{{}} to denote a variable. Ex: {{name}} is a {{adjective}} {{noun}}'
+								)!
 							}
+							className='col-span-3 resize-none'
 							value={content}
 							onChange={(e) => setContent(e.target.value)}
-							rows={10}
+							rows={5}
 						/>
-
-						<Button
-							className='mt-6'
-							onClick={() => {
-								const updatedPrompt = {
-									...prompt,
-									name,
-									description,
-									content: content.trim(),
-								}
-
-								onUpdatePrompt(updatedPrompt)
-								onClose()
-							}}
-						>
-							{t('Save')}
-						</Button>
 					</div>
 				</div>
-			</div>
-		</div>
+				<DialogFooter>
+					<Button
+						onClick={() => {
+							const updatedPrompt = {
+								...prompt,
+								name,
+								description,
+								content: content.trim(),
+							}
+
+							onUpdatePrompt(updatedPrompt)
+							onClose()
+						}}
+					>
+						{t('Save changes')!}
+					</Button>
+					<DialogClose>
+						<Button
+							variant='outline'
+							onClick={onClose}
+						>
+							{t('Cancel')!}
+						</Button>
+					</DialogClose>
+				</DialogFooter>
+			</DialogContent>
+		</Dialog>
 	)
 }
+
+export default PromptModal

@@ -1,35 +1,31 @@
-import { type TFunction } from '@/i18n';
-import { Prompt } from '@/types/prompt';
-import { FC } from 'react';
-import { PromptComponent } from './Prompt';
+import { Prompt } from '@/types/prompt'
+import { FC } from 'react'
+import { PromptComponent } from './Prompt'
 
 interface Props {
-  t: TFunction;
-  prompts: Prompt[];
-  onUpdatePrompt: (prompt: Prompt) => void;
-  onDeletePrompt: (prompt: Prompt) => void;
+	prompts: Prompt[]
+	onUpdatePrompt: (prompt: Prompt) => void
+	onDeletePrompt: (prompt: Prompt) => void
 }
 
 export const Prompts: FC<Props> = ({
-  t,
-  prompts,
-  onUpdatePrompt,
-  onDeletePrompt,
+	prompts,
+	onUpdatePrompt,
+	onDeletePrompt,
 }) => {
-  return (
-    <div className="flex w-full flex-col gap-1">
-      {prompts
-        .slice()
-        .reverse()
-        .map((prompt, index) => (
-          <PromptComponent
-            t={t}
-            key={index}
-            prompt={prompt}
-            onUpdatePrompt={onUpdatePrompt}
-            onDeletePrompt={onDeletePrompt}
-          />
-        ))}
-    </div>
-  );
-};
+	return (
+		<div className='flex w-full flex-col gap-1'>
+			{prompts
+				.slice()
+				.reverse()
+				.map((prompt, index) => (
+					<PromptComponent
+						key={index}
+						prompt={prompt}
+						onUpdatePrompt={onUpdatePrompt}
+						onDeletePrompt={onDeletePrompt}
+					/>
+				))}
+		</div>
+	)
+}

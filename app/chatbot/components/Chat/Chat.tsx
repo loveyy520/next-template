@@ -1,5 +1,22 @@
 'use client'
+import {
+	AlertDialog,
+	AlertDialogAction,
+	AlertDialogCancel,
+	AlertDialogContent,
+	AlertDialogDescription,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogTitle,
+	AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { Card } from '@/components/ui/card'
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from '@/components/ui/popover'
 import t from '@/i18n'
 import { Conversation, Message } from '@/types/chat'
 import { KeyValuePair } from '@/types/data'
@@ -57,7 +74,6 @@ export const Chat: FC<Props> = memo(
 	}) => {
 		const [currentMessage, setCurrentMessage] = useState<Message>()
 		const [autoScrollEnabled, setAutoScrollEnabled] = useState<boolean>(true)
-		const [showSettings, setShowSettings] = useState<boolean>(false)
 		const [showScrollDownButton, setShowScrollDownButton] =
 			useState<boolean>(false)
 
@@ -95,14 +111,8 @@ export const Chat: FC<Props> = memo(
 			})
 		}
 
-		const handleSettings = () => {
-			setShowSettings(!showSettings)
-		}
-
 		const onClearAll = () => {
-			if (confirm(t('Are you sure you want to clear all messages?'))) {
-				onUpdateConversation(conversation, { key: 'messages', value: [] })
-			}
+			onUpdateConversation(conversation, { key: 'messages', value: [] })
 		}
 
 		const scrollDown = () => {
@@ -155,19 +165,19 @@ export const Chat: FC<Props> = memo(
 							{conversation.messages.length === 0 ? (
 								<>
 									<section className='mx-auto flex w-[350px] flex-col space-y-10 pt-12 sm:w-[600px]'>
-										<div className='text-center text-3xl font-semibold text-gray-800 dark:text-gray-100'>
+										<div className='text-center text-3xl font-semibold text-foreground'>
 											{models.length === 0 ? (
 												<Spinner
 													size='16px'
 													className='mx-auto'
 												/>
 											) : (
-												'Onlyy Bot'
+												'Chrior'
 											)}
 										</div>
 
 										{models.length > 0 && (
-											<div className='flex h-full flex-col space-y-4 rounded-lg border border-border p-4 '>
+											<Card className='flex h-full flex-col space-y-4 p-4 '>
 												<ModelSelect
 													model={conversation.model}
 													models={models}
@@ -192,34 +202,25 @@ export const Chat: FC<Props> = memo(
 														}
 													/>
 												)}
-											</div>
+											</Card>
 										)}
 									</section>
 								</>
 							) : (
 								<>
-									<div className='flex absolute w-full top-0 z-10 justify-center border border-border bg-background py-2 text-sm text-foreground dark:border-none'>
+									<Card className='flex absolute w-full h-12 top-0 z-10 justify-center items-center border border-border bg-background py-2 text-sm text-foreground dark:border-none'>
 										{t('Model')}: {conversation.model.name}
-										<Button
-											size='icon'
-											variant='ghost'
-											className='ml-2'
-											onClick={handleSettings}
-										>
-											<i className='i-[material-symbols--settings]'></i>
-										</Button>
-										<Button
-											size='icon'
-											variant='ghost'
-											className='ml-2'
-											onClick={onClearAll}
-										>
-											<i className='i-[codicon--clear-all]'></i>
-										</Button>
-									</div>
-									{showSettings && (
-										<div className='flex flex-col absolute w-full bg-background top-9 z-10 space-y-10 md:mx-auto md:max-w-xl md:gap-6 md:py-3 md:pt-6 lg:max-w-2xl lg:px-0 xl:max-w-3xl'>
-											<div className='flex h-full flex-col space-y-4 border-b border-border p-4 md:rounded-lg md:border'>
+										<Popover>
+											<PopoverTrigger asChild>
+												<Button
+													size='icon'
+													variant='ghost'
+													className='ml-2'
+												>
+													<i className='i-[material-symbols--settings]'></i>
+												</Button>
+											</PopoverTrigger>
+											<PopoverContent className='w-80'>
 												<ModelSelect
 													model={conversation.model}
 													models={models}
@@ -231,9 +232,40 @@ export const Chat: FC<Props> = memo(
 														})
 													}
 												/>
-											</div>
-										</div>
-									)}
+											</PopoverContent>
+										</Popover>
+										<AlertDialog>
+											<AlertDialogTrigger asChild>
+												<Button
+													size='icon'
+													variant='ghost'
+													className='ml-2'
+												>
+													<i className='i-[codicon--clear-all]'></i>
+												</Button>
+											</AlertDialogTrigger>
+											<AlertDialogContent>
+												<AlertDialogHeader>
+													<AlertDialogTitle>
+														{t('Are you sure you want to clear all messages?')!}
+													</AlertDialogTitle>
+													<AlertDialogDescription>
+														{
+															t(
+																'This action cannot be undone. This will permanently delete the messages.'
+															)!
+														}
+													</AlertDialogDescription>
+												</AlertDialogHeader>
+												<AlertDialogFooter>
+													<AlertDialogCancel>{t('Cancel')!}</AlertDialogCancel>
+													<AlertDialogAction onClick={onClearAll}>
+														{t('Continue')}
+													</AlertDialogAction>
+												</AlertDialogFooter>
+											</AlertDialogContent>
+										</AlertDialog>
+									</Card>
 
 									{conversation.messages.map((message, index) => (
 										<ChatMessage

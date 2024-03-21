@@ -1,3 +1,13 @@
+import { Label } from '@/components/ui/label'
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select'
 import t from '@/i18n'
 import { OpenAIModel, OpenAIModelID } from '@/types/openai'
 import { FC } from 'react'
@@ -16,34 +26,35 @@ export const ModelSelect: FC<Props> = ({
 	onModelChange,
 }) => {
 	return (
-		<div className='flex flex-col'>
-			<label className='mb-2 text-left text-neutral-700 dark:text-neutral-400'>
-				{t('Model')}
-			</label>
-			<div className='w-full rounded-lg border border-border bg-transparent pr-2 text-foreground  '>
-				<select
-					className='w-full bg-transparent p-2'
-					placeholder={t('Select a model') || ''}
-					value={model?.id || defaultModelId}
-					onChange={(e) => {
-						onModelChange(
-							models.find((model) => model.id === e.target.value) as OpenAIModel
-						)
-					}}
-				>
-					{models.map((model) => (
-						<option
-							key={model.id}
-							value={model.id}
-							className=' '
-						>
-							{model.id === defaultModelId
-								? `Default (${model.name})`
-								: model.name}
-						</option>
-					))}
-				</select>
-			</div>
+		<div className='flex flex-col gap-4'>
+			<Label>{t('Model')}</Label>
+			<Select
+				value={model?.id || defaultModelId}
+				onValueChange={(value) => {
+					onModelChange(
+						models.find((model) => model.id === value) as OpenAIModel
+					)
+				}}
+			>
+				<SelectTrigger className='w-full'>
+					<SelectValue placeholder={t('Select a model')!} />
+				</SelectTrigger>
+				<SelectContent>
+					<SelectGroup>
+						<SelectLabel>{t('Available models:')!}</SelectLabel>
+						{models.map((model) => (
+							<SelectItem
+								key={model.id}
+								value={model.id}
+							>
+								{model.id === defaultModelId
+									? `Default (${model.name})`
+									: model.name}
+							</SelectItem>
+						))}
+					</SelectGroup>
+				</SelectContent>
+			</Select>
 		</div>
 	)
 }

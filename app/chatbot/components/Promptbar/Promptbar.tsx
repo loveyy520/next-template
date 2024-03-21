@@ -1,6 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { ScrollArea } from '@/components/ui/scroll-area'
 import t from '@/i18n'
 import { Folder } from '@/types/folder'
 import { Prompt } from '@/types/prompt'
@@ -123,11 +124,10 @@ export const Promptbar: FC<Props> = ({
 				/>
 			)}
 
-			<div className='flex-grow overflow-auto'>
+			<ScrollArea>
 				{folders.length > 0 && (
 					<div className='flex pb-2 border-b border-border'>
 						<PromptFolders
-							t={t}
 							searchTerm={searchTerm}
 							prompts={filteredPrompts}
 							folders={folders}
@@ -149,7 +149,6 @@ export const Promptbar: FC<Props> = ({
 						onDragLeave={removeHighlight}
 					>
 						<Prompts
-							t={t}
 							prompts={filteredPrompts.filter((prompt) => !prompt.folderId)}
 							onUpdatePrompt={handleUpdatePrompt}
 							onDeletePrompt={handleDeletePrompt}
@@ -164,7 +163,7 @@ export const Promptbar: FC<Props> = ({
 						</span>
 					</div>
 				)}
-			</div>
+			</ScrollArea>
 
 			<PromptbarSettings />
 		</div>

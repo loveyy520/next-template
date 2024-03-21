@@ -118,8 +118,13 @@ const ChatHome = ({ params: { lang } }: Props) => {
 	)
 	// FETCH RESPONSE ----------------------------------------------
 
+	const { toast } = useToast()
 	const handleSend = useCallback(
-		async (message: Message, deleteCount = 0, plugin: Plugin | null = null) => {
+		async (
+			message: Message,
+			deleteCount: number = 0,
+			plugin: Plugin | null = null
+		) => {
 			if (selectedConversation) {
 				let updatedConversation = getUpdatedConversation(
 					selectedConversation,
@@ -140,7 +145,6 @@ const ChatHome = ({ params: { lang } }: Props) => {
 				const endpoint = getEndpoint(plugin)
 				const body = getStandardBody(plugin, chatBody, pluginKeys)
 
-				const { toast } = useToast()
 				const controller = new AbortController()
 				const response = await fetch(endpoint, {
 					method: 'POST',

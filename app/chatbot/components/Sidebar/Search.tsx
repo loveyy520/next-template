@@ -29,11 +29,12 @@ export const Search: FC<Props> = ({ placeholder, searchTerm, onSearch }) => {
 
 			{searchTerm && (
 				<Button
+					variant='outline'
 					className='shrink-0'
 					size='icon'
 				>
 					<i
-						className='i-[material-symbols--add]'
+						className='i-[icon-park-outline--clear]'
 						onClick={clearSearch}
 					/>
 				</Button>

@@ -99,7 +99,7 @@ export const ChatMessage: FC<Props> = memo(
 						<Image
 							className='rounded'
 							src={botAvatar}
-							alt='Onlyy Bot'
+							alt='Chrior'
 							width={avatarSize}
 							height={avatarSize}
 							typeof='round'

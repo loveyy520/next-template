@@ -1,59 +1,54 @@
 'use client'
 
-import { type TFunction } from '@/i18n'
+import {
+	Select,
+	SelectContent,
+	SelectGroup,
+	SelectItem,
+	SelectLabel,
+	SelectValue,
+} from '@/components/ui/select'
+import t from '@/i18n'
 import { Plugin, PluginList } from '@/types/plugin'
-import { FC, useEffect, useRef } from 'react'
+import { SelectTrigger } from '@radix-ui/react-select'
+import { FC } from 'react'
 
 interface Props {
-	t: TFunction
 	plugin: Plugin | null
 	onPluginChange: (plugin: Plugin) => void
 }
 
-export const PluginSelect: FC<Props> = ({ t, plugin, onPluginChange }) => {
-	const selectRef = useRef<HTMLSelectElement>(null)
-
-	useEffect(() => {
-		if (selectRef.current) {
-			selectRef.current.focus()
-		}
-	}, [])
-
+export const PluginSelect: FC<Props> = ({ plugin, onPluginChange }) => {
 	return (
-		<div className='flex flex-col'>
-			<div className='w-full rounded-lg border border-border bg-transparent pr-2 text-foreground  '>
-				<select
-					ref={selectRef}
-					className='w-full cursor-pointer bg-transparent p-2'
-					placeholder={t('Select a plugin') || ''}
-					value={plugin?.id || ''}
-					onChange={(e) => {
-						onPluginChange(
-							PluginList.find(
-								(plugin) => plugin.id === e.target.value
-							) as Plugin
-						)
-					}}
+		<Select
+			value={plugin?.id}
+			onValueChange={(value) => {
+				onPluginChange(
+					PluginList.find((plugin) => plugin.id === value) as Plugin
+				)
+			}}
+		>
+			<SelectTrigger className='absolute left-3 top-3 justify-center items-center w-5 h-5'>
+				<SelectValue
+					autoFocus
+					placeholder={<i className='i-[ic--outline-offline-bolt] text-xl'></i>}
 				>
-					<option
-						key='none'
-						value=''
-						className=' '
-					>
-						Select Plugin
-					</option>
-
+					<i className='i-[logos--google-icon] text-xl'></i>
+				</SelectValue>
+			</SelectTrigger>
+			<SelectContent>
+				<SelectGroup>
+					<SelectLabel>{t('Select Plugin')!}</SelectLabel>
 					{PluginList.map((plugin) => (
-						<option
+						<SelectItem
 							key={plugin.id}
 							value={plugin.id}
-							className=' '
 						>
 							{plugin.name}
-						</option>
+						</SelectItem>
 					))}
-				</select>
-			</div>
-		</div>
+				</SelectGroup>
+			</SelectContent>
+		</Select>
 	)
 }

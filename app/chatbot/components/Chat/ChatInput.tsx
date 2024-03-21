@@ -250,7 +250,7 @@ export const ChatInput: FC<Props> = ({
 			<div className='stretch mx-2 mt-4 flex flex-row gap-3 last:mb-2 md:mx-4 md:mt-[52px] md:last:mb-6 lg:mx-auto lg:max-w-3xl'>
 				{messageIsStreaming && (
 					<Button
-						className='absolute top-0 left-0 right-0 mx-auto mb-3 w-fit gap-3'
+						className='absolute top-0 left-0 right-0 gap-4 mx-auto mb-3 w-fit'
 						onClick={handleStopConversation}
 					>
 						<i className='text-base i-[tabler--player-stop-filled]'></i>
@@ -260,6 +260,7 @@ export const ChatInput: FC<Props> = ({
 
 				{!messageIsStreaming && !conversationIsEmpty && (
 					<Button
+						className='absolute top-0 left-0 right-0 gap-4 mx-auto mb-3 w-fit'
 						size='lg'
 						onClick={onRegenerate}
 					>
@@ -268,36 +269,18 @@ export const ChatInput: FC<Props> = ({
 					</Button>
 				)}
 
-				<div className='relative mx-2 flex w-full flex-grow flex-col rounded-md border border-border bg-background shadow-[0_0_10px_rgba(0,0,0,0.10)]    dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] sm:mx-4'>
-					<Button
-						variant='ghost'
-						size='icon'
-						className='absolute left-0.5 top-0.5 active:scale-100'
-						onClick={() => setShowPluginSelect(!showPluginSelect)}
-					>
-						{plugin ? (
-							<i className='i-[logos--google-icon] text-xl'></i>
-						) : (
-							<i className='i-[ic--outline-offline-bolt] text-xl'></i>
-						)}
-					</Button>
+				<div className='relative mx-2 flex w-full flex-grow flex-col rounded-md border border-border bg-background shadow-[0_0_10px_rgba(0,0,0,0.10)]  dark:shadow-[0_0_15px_rgba(0,0,0,0.10)] sm:mx-4'>
+					<PluginSelect
+						plugin={plugin}
+						onPluginChange={(plugin: Plugin) => {
+							setPlugin(plugin)
+							setShowPluginSelect(false)
 
-					{showPluginSelect && (
-						<div className='absolute left-0 bottom-14 bg-background '>
-							<PluginSelect
-								t={t}
-								plugin={plugin}
-								onPluginChange={(plugin: Plugin) => {
-									setPlugin(plugin)
-									setShowPluginSelect(false)
-
-									if (textareaRef && textareaRef.current) {
-										textareaRef.current.focus()
-									}
-								}}
-							/>
-						</div>
-					)}
+							if (textareaRef && textareaRef.current) {
+								textareaRef.current.focus()
+							}
+						}}
+					/>
 
 					<Textarea
 						ref={textareaRef}
@@ -357,7 +340,7 @@ export const ChatInput: FC<Props> = ({
 				</div>
 			</div>
 			<div className='px-3 pt-2 pb-3 text-center text-[12px] text-foreground/50 md:px-4 md:pt-3 md:pb-6'>
-				{t('Onlyy Bot keeps everything convinient.')}
+				{t('Chrior keeps everything convinient.')}
 			</div>
 		</div>
 	)

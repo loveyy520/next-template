@@ -119,6 +119,8 @@ export const PromptFolder: FC<Props> = ({
 					</div>
 				) : (
 					<Button
+						className='w-full gap-4 active:scale-100'
+						variant='ghost'
 						onClick={() => setIsOpen(!isOpen)}
 						onDrop={(e) => handleDrop(e, currentFolder)}
 						onDragOver={allowDrop}
@@ -186,7 +188,7 @@ export const PromptFolder: FC<Props> = ({
 				)}
 
 				{!isDeleting && !isRenaming && (
-					<div className='absolute right-1 z-10 flex text-gray-300'>
+					<div className='absolute right-1 z-10 flex gap-2 text-gray-300'>
 						<Button
 							variant='ghost'
 							size='icon'
