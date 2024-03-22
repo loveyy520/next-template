@@ -2,13 +2,16 @@
 
 import { Message } from '@/types/chat'
 import Image from 'next/image'
-import { FC, memo, useEffect, useRef, useState } from 'react'
+import { LegacyRef, memo, useEffect, useRef, useState } from 'react'
 // import rehypeMathjax from 'rehype-mathjax';
 import { Button } from '@/components/ui/button'
 import t from '@/i18n'
 import remarkGfm from 'remark-gfm'
 import remarkMath from 'remark-math'
-import { CodeBlock } from '../Markdown/CodeBlock'
+// import { CodeBlock } from '../Markdown/CodeBlock'
+import { NextPage } from 'next'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 import { MemoizedReactMarkdown } from '../Markdown/MemoizedReactMarkdown'
 
 interface Props {
@@ -24,7 +27,7 @@ const avatarSize = 36
 
 const decorations = ['🦋', '🦋', '🍒', '🍒', '🍭', '🍭', '🍷', '🍷']
 
-export const ChatMessage: FC<Props> = memo(
+export const ChatMessage: NextPage<Props> = memo(
 	({ message, messageIndex, onEditMessage, lang }) => {
 		const [isEditing, setIsEditing] = useState<boolean>(false)
 		const [isTyping, setIsTyping] = useState<boolean>(false)
@@ -221,21 +224,47 @@ export const ChatMessage: FC<Props> = memo(
 										remarkPlugins={[remarkGfm, remarkMath]}
 										// rehypePlugins={[rehypeMathjax]}
 										components={{
-											code({ node, inline, className, children, ...props }) {
-												const match = /language-(\w+)/.exec(className || '')
+											// code({ node, inline, className, children, ...props }) {
+											// 	const match = /language-(\w+)/.exec(className || '')
 
-												return !inline ? (
-													<CodeBlock
-														lang={lang}
-														key={Math.random()}
-														language={(match && match[1]) || ''}
-														value={String(children).replace(/\n$/, '')}
-														{...props}
-													/>
+											// 	return !inline ? (
+											// 		<CodeBlock
+											// 			lang={lang}
+											// 			key={Math.random()}
+											// 			language={(match && match[1]) || ''}
+											// 			value={String(children).replace(/\n$/, '')}
+											// 			{...props}
+											// 		/>
+											// 	) : (
+											// 		<code
+											// 			className={className}
+											// 			{...props}
+											// 		>
+											// 			{children}
+											// 		</code>
+											// 	)
+											// },
+											code(props) {
+												const { children, className, node, ref, ...rest } =
+													props
+												const match = /language-(\w+)/.exec(className || '')
+												return match ? (
+													<SyntaxHighlighter
+														ref={
+															ref as LegacyRef<SyntaxHighlighter> | undefined
+														}
+														{...rest}
+														PreTag='div'
+														language={match[1]}
+														style={dark}
+													>
+														{String(children).replace(/\n$/, '')}
+													</SyntaxHighlighter>
 												) : (
 													<code
+														ref={ref}
+														{...rest}
 														className={className}
-														{...props}
 													>
 														{children}
 													</code>
